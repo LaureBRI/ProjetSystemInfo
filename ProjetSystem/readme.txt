@@ -12,3 +12,11 @@ SuiteMaths: tADD Val SuiteMaths
 	|tMULT Val
 	|tDIV Val
 	|tMOD Val
+
+
+
+
+Fonctions de la table des symboles :
+ajouterEntrée
+supprimerEntrée
+valeur(nom de l’entrée)
