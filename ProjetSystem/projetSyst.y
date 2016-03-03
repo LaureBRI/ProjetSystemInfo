@@ -51,20 +51,17 @@ Content: If Content
 	|;
 
 /*Ajouter la gestion des parenthèses pour les priorités des calculs*/
-Maths: Val SuiteMaths
+
+Maths: Val
+	| tPO Maths tPF
+	| Maths tSUB Maths
+	| Maths tADD Maths
+	| Maths tMULT Maths
+	| Maths tDIV Maths
+	| Maths tMOD Maths
 
 /*REDUCE -> a revoir*/
 
-SuiteMaths: tADD Val SuiteMaths
-	|tSUB Val SuiteMaths
- 	|tMULT Val SuiteMaths
-	|tDIV Val SuiteMaths
-	|tMOD Val SuiteMaths
-	|tADD Val
-	|tSUB Val
-	|tMULT Val
-	|tDIV Val
-	|tMOD Val
 
 Val: tNB
 	| tNBE
@@ -100,11 +97,13 @@ SuiteArgs: tCOMA tID SuiteArgs
 	| tCOMA tNB
 	| tCOMA tID
 
-Aff: tID tAFFECT ValAffect tSEMI
-	| tID tAFFECT Maths tSEMI
+Aff: tID tAFFECT Maths tSEMI
 
 /* Rajouter si on décide de prendre en charge d'autres types */
-ValAffect: tNB
+
+Print: tPRINT
+
+Return: tRETURN
 
 
 /* TODO LEX : || && ... */

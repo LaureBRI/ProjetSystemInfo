@@ -27,7 +27,8 @@ NB [0-9]+
 "<=" {printf("<=\n"); return tINFEG;}
 ">" {printf(">\n"); return tSUP;}
 ">=" {printf(">=\n"); return tSUPEG;}
-
+"&&" {printf("&&\n"); return tAND;}
+"||" {printf("||\n"); return tOR;}
 
 "int" {printf("int\n"); return tINT;}
 
