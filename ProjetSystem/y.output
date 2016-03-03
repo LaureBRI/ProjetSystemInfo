@@ -1,0 +1,1021 @@
+Useless nonterminals
+
+   Maths
+   SuiteMaths
+   Val
+
+
+Terminals which are not used
+
+   tERROR
+   tADD
+   tSUB
+   tMULT
+   tDIV
+   tMOD
+   tRETURN
+   tPRINT
+   tNBE
+
+
+Useless rules
+
+   47 Content: Maths Content
+
+   48 Maths: Val SuiteMaths
+
+   49 SuiteMaths: tADD Val SuiteMaths
+   50           | tSUB Val SuiteMaths
+   51           | tMULT Val SuiteMaths
+   52           | tDIV Val SuiteMaths
+   53           | tMOD Val SuiteMaths
+
+   54 Val: tNB
+   55    | tNBE
+   56    | tID
+
+   57 Aff: tID tAFFECT Maths tSEMI
+
+
+Grammar
+
+    0 $accept: Input $end
+
+    1 Input: DFonction Input
+    2      | /* empty */
+
+    3 DFonction: FType tID tPO Params tPF Body
+
+    4 If: tIF tPO Cond tPF Body
+
+    5 FType: tVOID
+    6      | Type
+
+    7 Type: tINT
+
+    8 Params: Type tID
+    9       | Type tID SuiteParams
+   10       | /* empty */
+
+   11 SuiteParams: tCOMA Type tID
+   12            | tCOMA Type tID SuiteParams
+
+   13 While: tWHILE tPO Cond tPF Body
+
+   14 Body: tAO Content tAF
+
+   15 Content: If Content
+   16        | While Content
+   17        | Decl
+   18        | Aff Content
+   19        | Body
+   20        | Fonction
+   21        | /* empty */
+
+   22 Decl: Type tID tSEMI
+   23     | Type tID tCOMA SuiteDecl
+
+   24 SuiteDecl: tID tCOMA SuiteDecl
+   25          | tID tSEMI
+
+   26 Cond: Exp tINF Exp
+   27     | Exp tINFEG Exp
+   28     | Exp tSUP Exp
+   29     | Exp tSUPEG Exp
+   30     | Exp tEQ Exp
+   31     | Cond tOR Cond
+   32     | Cond tAND Cond
+   33     | tPO Cond tPF
+   34     | Exp
+
+   35 Exp: tNB
+   36    | tID
+
+   37 Fonction: tID tPO Args tPF tSEMI
+
+   38 Args: tID SuiteArgs
+   39     | tNB SuiteArgs
+   40     | /* empty */
+
+   41 SuiteArgs: tCOMA tID SuiteArgs
+   42          | tCOMA tNB SuiteArgs
+   43          | tCOMA tNB
+   44          | tCOMA tID
+
+   45 Aff: tID tAFFECT ValAffect tSEMI
+
+   46 ValAffect: tNB
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+tINT (258) 7
+tVOID (259) 5
+tID (260) 3 8 9 11 12 22 23 24 25 36 37 38 41 44 45
+tPO (261) 3 4 13 33 37
+tPF (262) 3 4 13 33 37
+tIF (263) 4
+tERROR (264)
+tCOMA (265) 11 12 23 24 41 42 43 44
+tAO (266) 14
+tAF (267) 14
+tADD (268)
+tSUB (269)
+tMULT (270)
+tDIV (271)
+tMOD (272)
+tAFFECT (273) 45
+tEQ (274) 30
+tSEMI (275) 22 25 37 45
+tRETURN (276)
+tPRINT (277)
+tWHILE (278) 13
+tNB (279) 35 39 42 43 46
+tNBE (280)
+tINF (281) 26
+tINFEG (282) 27
+tSUP (283) 28
+tSUPEG (284) 29
+tOR (285) 31
+tAND (286) 32
+
+
+Nonterminals, with rules where they appear
+
+$accept (32)
+    on left: 0
+Input (33)
+    on left: 1 2, on right: 0 1
+DFonction (34)
+    on left: 3, on right: 1
+If (35)
+    on left: 4, on right: 15
+FType (36)
+    on left: 5 6, on right: 3
+Type (37)
+    on left: 7, on right: 6 8 9 11 12 22 23
+Params (38)
+    on left: 8 9 10, on right: 3
+SuiteParams (39)
+    on left: 11 12, on right: 9 12
+While (40)
+    on left: 13, on right: 16
+Body (41)
+    on left: 14, on right: 3 4 13 19
+Content (42)
+    on left: 15 16 17 18 19 20 21, on right: 14 15 16 18
+Decl (43)
+    on left: 22 23, on right: 17
+SuiteDecl (44)
+    on left: 24 25, on right: 23 24
+Cond (45)
+    on left: 26 27 28 29 30 31 32 33 34, on right: 4 13 31 32 33
+Exp (46)
+    on left: 35 36, on right: 26 27 28 29 30 34
+Fonction (47)
+    on left: 37, on right: 20
+Args (48)
+    on left: 38 39 40, on right: 37
+SuiteArgs (49)
+    on left: 41 42 43 44, on right: 38 39 41 42
+Aff (50)
+    on left: 45, on right: 18
+ValAffect (51)
+    on left: 46, on right: 45
+
+
+state 0
+
+    0 $accept: . Input $end
+
+    tINT   shift, and go to state 1
+    tVOID  shift, and go to state 2
+
+    $default  reduce using rule 2 (Input)
+
+    Input      go to state 3
+    DFonction  go to state 4
+    FType      go to state 5
+    Type       go to state 6
+
+
+state 1
+
+    7 Type: tINT .
+
+    $default  reduce using rule 7 (Type)
+
+
+state 2
+
+    5 FType: tVOID .
+
+    $default  reduce using rule 5 (FType)
+
+
+state 3
+
+    0 $accept: Input . $end
+
+    $end  shift, and go to state 7
+
+
+state 4
+
+    1 Input: DFonction . Input
+
+    tINT   shift, and go to state 1
+    tVOID  shift, and go to state 2
+
+    $default  reduce using rule 2 (Input)
+
+    Input      go to state 8
+    DFonction  go to state 4
+    FType      go to state 5
+    Type       go to state 6
+
+
+state 5
+
+    3 DFonction: FType . tID tPO Params tPF Body
+
+    tID  shift, and go to state 9
+
+
+state 6
+
+    6 FType: Type .
+
+    $default  reduce using rule 6 (FType)
+
+
+state 7
+
+    0 $accept: Input $end .
+
+    $default  accept
+
+
+state 8
+
+    1 Input: DFonction Input .
+
+    $default  reduce using rule 1 (Input)
+
+
+state 9
+
+    3 DFonction: FType tID . tPO Params tPF Body
+
+    tPO  shift, and go to state 10
+
+
+state 10
+
+    3 DFonction: FType tID tPO . Params tPF Body
+
+    tINT  shift, and go to state 1
+
+    $default  reduce using rule 10 (Params)
+
+    Type    go to state 11
+    Params  go to state 12
+
+
+state 11
+
+    8 Params: Type . tID
+    9       | Type . tID SuiteParams
+
+    tID  shift, and go to state 13
+
+
+state 12
+
+    3 DFonction: FType tID tPO Params . tPF Body
+
+    tPF  shift, and go to state 14
+
+
+state 13
+
+    8 Params: Type tID .
+    9       | Type tID . SuiteParams
+
+    tCOMA  shift, and go to state 15
+
+    $default  reduce using rule 8 (Params)
+
+    SuiteParams  go to state 16
+
+
+state 14
+
+    3 DFonction: FType tID tPO Params tPF . Body
+
+    tAO  shift, and go to state 17
+
+    Body  go to state 18
+
+
+state 15
+
+   11 SuiteParams: tCOMA . Type tID
+   12            | tCOMA . Type tID SuiteParams
+
+    tINT  shift, and go to state 1
+
+    Type  go to state 19
+
+
+state 16
+
+    9 Params: Type tID SuiteParams .
+
+    $default  reduce using rule 9 (Params)
+
+
+state 17
+
+   14 Body: tAO . Content tAF
+
+    tINT    shift, and go to state 1
+    tID     shift, and go to state 20
+    tIF     shift, and go to state 21
+    tAO     shift, and go to state 17
+    tWHILE  shift, and go to state 22
+
+    $default  reduce using rule 21 (Content)
+
+    If        go to state 23
+    Type      go to state 24
+    While     go to state 25
+    Body      go to state 26
+    Content   go to state 27
+    Decl      go to state 28
+    Fonction  go to state 29
+    Aff       go to state 30
+
+
+state 18
+
+    3 DFonction: FType tID tPO Params tPF Body .
+
+    $default  reduce using rule 3 (DFonction)
+
+
+state 19
+
+   11 SuiteParams: tCOMA Type . tID
+   12            | tCOMA Type . tID SuiteParams
+
+    tID  shift, and go to state 31
+
+
+state 20
+
+   37 Fonction: tID . tPO Args tPF tSEMI
+   45 Aff: tID . tAFFECT ValAffect tSEMI
+
+    tPO      shift, and go to state 32
+    tAFFECT  shift, and go to state 33
+
+
+state 21
+
+    4 If: tIF . tPO Cond tPF Body
+
+    tPO  shift, and go to state 34
+
+
+state 22
+
+   13 While: tWHILE . tPO Cond tPF Body
+
+    tPO  shift, and go to state 35
+
+
+state 23
+
+   15 Content: If . Content
+
+    tINT    shift, and go to state 1
+    tID     shift, and go to state 20
+    tIF     shift, and go to state 21
+    tAO     shift, and go to state 17
+    tWHILE  shift, and go to state 22
+
+    $default  reduce using rule 21 (Content)
+
+    If        go to state 23
+    Type      go to state 24
+    While     go to state 25
+    Body      go to state 26
+    Content   go to state 36
+    Decl      go to state 28
+    Fonction  go to state 29
+    Aff       go to state 30
+
+
+state 24
+
+   22 Decl: Type . tID tSEMI
+   23     | Type . tID tCOMA SuiteDecl
+
+    tID  shift, and go to state 37
+
+
+state 25
+
+   16 Content: While . Content
+
+    tINT    shift, and go to state 1
+    tID     shift, and go to state 20
+    tIF     shift, and go to state 21
+    tAO     shift, and go to state 17
+    tWHILE  shift, and go to state 22
+
+    $default  reduce using rule 21 (Content)
+
+    If        go to state 23
+    Type      go to state 24
+    While     go to state 25
+    Body      go to state 26
+    Content   go to state 38
+    Decl      go to state 28
+    Fonction  go to state 29
+    Aff       go to state 30
+
+
+state 26
+
+   19 Content: Body .
+
+    $default  reduce using rule 19 (Content)
+
+
+state 27
+
+   14 Body: tAO Content . tAF
+
+    tAF  shift, and go to state 39
+
+
+state 28
+
+   17 Content: Decl .
+
+    $default  reduce using rule 17 (Content)
+
+
+state 29
+
+   20 Content: Fonction .
+
+    $default  reduce using rule 20 (Content)
+
+
+state 30
+
+   18 Content: Aff . Content
+
+    tINT    shift, and go to state 1
+    tID     shift, and go to state 20
+    tIF     shift, and go to state 21
+    tAO     shift, and go to state 17
+    tWHILE  shift, and go to state 22
+
+    $default  reduce using rule 21 (Content)
+
+    If        go to state 23
+    Type      go to state 24
+    While     go to state 25
+    Body      go to state 26
+    Content   go to state 40
+    Decl      go to state 28
+    Fonction  go to state 29
+    Aff       go to state 30
+
+
+state 31
+
+   11 SuiteParams: tCOMA Type tID .
+   12            | tCOMA Type tID . SuiteParams
+
+    tCOMA  shift, and go to state 15
+
+    $default  reduce using rule 11 (SuiteParams)
+
+    SuiteParams  go to state 41
+
+
+state 32
+
+   37 Fonction: tID tPO . Args tPF tSEMI
+
+    tID  shift, and go to state 42
+    tNB  shift, and go to state 43
+
+    $default  reduce using rule 40 (Args)
+
+    Args  go to state 44
+
+
+state 33
+
+   45 Aff: tID tAFFECT . ValAffect tSEMI
+
+    tNB  shift, and go to state 45
+
+    ValAffect  go to state 46
+
+
+state 34
+
+    4 If: tIF tPO . Cond tPF Body
+
+    tID  shift, and go to state 47
+    tPO  shift, and go to state 48
+    tNB  shift, and go to state 49
+
+    Cond  go to state 50
+    Exp   go to state 51
+
+
+state 35
+
+   13 While: tWHILE tPO . Cond tPF Body
+
+    tID  shift, and go to state 47
+    tPO  shift, and go to state 48
+    tNB  shift, and go to state 49
+
+    Cond  go to state 52
+    Exp   go to state 51
+
+
+state 36
+
+   15 Content: If Content .
+
+    $default  reduce using rule 15 (Content)
+
+
+state 37
+
+   22 Decl: Type tID . tSEMI
+   23     | Type tID . tCOMA SuiteDecl
+
+    tCOMA  shift, and go to state 53
+    tSEMI  shift, and go to state 54
+
+
+state 38
+
+   16 Content: While Content .
+
+    $default  reduce using rule 16 (Content)
+
+
+state 39
+
+   14 Body: tAO Content tAF .
+
+    $default  reduce using rule 14 (Body)
+
+
+state 40
+
+   18 Content: Aff Content .
+
+    $default  reduce using rule 18 (Content)
+
+
+state 41
+
+   12 SuiteParams: tCOMA Type tID SuiteParams .
+
+    $default  reduce using rule 12 (SuiteParams)
+
+
+state 42
+
+   38 Args: tID . SuiteArgs
+
+    tCOMA  shift, and go to state 55
+
+    SuiteArgs  go to state 56
+
+
+state 43
+
+   39 Args: tNB . SuiteArgs
+
+    tCOMA  shift, and go to state 55
+
+    SuiteArgs  go to state 57
+
+
+state 44
+
+   37 Fonction: tID tPO Args . tPF tSEMI
+
+    tPF  shift, and go to state 58
+
+
+state 45
+
+   46 ValAffect: tNB .
+
+    $default  reduce using rule 46 (ValAffect)
+
+
+state 46
+
+   45 Aff: tID tAFFECT ValAffect . tSEMI
+
+    tSEMI  shift, and go to state 59
+
+
+state 47
+
+   36 Exp: tID .
+
+    $default  reduce using rule 36 (Exp)
+
+
+state 48
+
+   33 Cond: tPO . Cond tPF
+
+    tID  shift, and go to state 47
+    tPO  shift, and go to state 48
+    tNB  shift, and go to state 49
+
+    Cond  go to state 60
+    Exp   go to state 51
+
+
+state 49
+
+   35 Exp: tNB .
+
+    $default  reduce using rule 35 (Exp)
+
+
+state 50
+
+    4 If: tIF tPO Cond . tPF Body
+   31 Cond: Cond . tOR Cond
+   32     | Cond . tAND Cond
+
+    tPF   shift, and go to state 61
+    tOR   shift, and go to state 62
+    tAND  shift, and go to state 63
+
+
+state 51
+
+   26 Cond: Exp . tINF Exp
+   27     | Exp . tINFEG Exp
+   28     | Exp . tSUP Exp
+   29     | Exp . tSUPEG Exp
+   30     | Exp . tEQ Exp
+   34     | Exp .
+
+    tEQ     shift, and go to state 64
+    tINF    shift, and go to state 65
+    tINFEG  shift, and go to state 66
+    tSUP    shift, and go to state 67
+    tSUPEG  shift, and go to state 68
+
+    $default  reduce using rule 34 (Cond)
+
+
+state 52
+
+   13 While: tWHILE tPO Cond . tPF Body
+   31 Cond: Cond . tOR Cond
+   32     | Cond . tAND Cond
+
+    tPF   shift, and go to state 69
+    tOR   shift, and go to state 62
+    tAND  shift, and go to state 63
+
+
+state 53
+
+   23 Decl: Type tID tCOMA . SuiteDecl
+
+    tID  shift, and go to state 70
+
+    SuiteDecl  go to state 71
+
+
+state 54
+
+   22 Decl: Type tID tSEMI .
+
+    $default  reduce using rule 22 (Decl)
+
+
+state 55
+
+   41 SuiteArgs: tCOMA . tID SuiteArgs
+   42          | tCOMA . tNB SuiteArgs
+   43          | tCOMA . tNB
+   44          | tCOMA . tID
+
+    tID  shift, and go to state 72
+    tNB  shift, and go to state 73
+
+
+state 56
+
+   38 Args: tID SuiteArgs .
+
+    $default  reduce using rule 38 (Args)
+
+
+state 57
+
+   39 Args: tNB SuiteArgs .
+
+    $default  reduce using rule 39 (Args)
+
+
+state 58
+
+   37 Fonction: tID tPO Args tPF . tSEMI
+
+    tSEMI  shift, and go to state 74
+
+
+state 59
+
+   45 Aff: tID tAFFECT ValAffect tSEMI .
+
+    $default  reduce using rule 45 (Aff)
+
+
+state 60
+
+   31 Cond: Cond . tOR Cond
+   32     | Cond . tAND Cond
+   33     | tPO Cond . tPF
+
+    tPF   shift, and go to state 75
+    tOR   shift, and go to state 62
+    tAND  shift, and go to state 63
+
+
+state 61
+
+    4 If: tIF tPO Cond tPF . Body
+
+    tAO  shift, and go to state 17
+
+    Body  go to state 76
+
+
+state 62
+
+   31 Cond: Cond tOR . Cond
+
+    tID  shift, and go to state 47
+    tPO  shift, and go to state 48
+    tNB  shift, and go to state 49
+
+    Cond  go to state 77
+    Exp   go to state 51
+
+
+state 63
+
+   32 Cond: Cond tAND . Cond
+
+    tID  shift, and go to state 47
+    tPO  shift, and go to state 48
+    tNB  shift, and go to state 49
+
+    Cond  go to state 78
+    Exp   go to state 51
+
+
+state 64
+
+   30 Cond: Exp tEQ . Exp
+
+    tID  shift, and go to state 47
+    tNB  shift, and go to state 49
+
+    Exp  go to state 79
+
+
+state 65
+
+   26 Cond: Exp tINF . Exp
+
+    tID  shift, and go to state 47
+    tNB  shift, and go to state 49
+
+    Exp  go to state 80
+
+
+state 66
+
+   27 Cond: Exp tINFEG . Exp
+
+    tID  shift, and go to state 47
+    tNB  shift, and go to state 49
+
+    Exp  go to state 81
+
+
+state 67
+
+   28 Cond: Exp tSUP . Exp
+
+    tID  shift, and go to state 47
+    tNB  shift, and go to state 49
+
+    Exp  go to state 82
+
+
+state 68
+
+   29 Cond: Exp tSUPEG . Exp
+
+    tID  shift, and go to state 47
+    tNB  shift, and go to state 49
+
+    Exp  go to state 83
+
+
+state 69
+
+   13 While: tWHILE tPO Cond tPF . Body
+
+    tAO  shift, and go to state 17
+
+    Body  go to state 84
+
+
+state 70
+
+   24 SuiteDecl: tID . tCOMA SuiteDecl
+   25          | tID . tSEMI
+
+    tCOMA  shift, and go to state 85
+    tSEMI  shift, and go to state 86
+
+
+state 71
+
+   23 Decl: Type tID tCOMA SuiteDecl .
+
+    $default  reduce using rule 23 (Decl)
+
+
+state 72
+
+   41 SuiteArgs: tCOMA tID . SuiteArgs
+   44          | tCOMA tID .
+
+    tCOMA  shift, and go to state 55
+
+    $default  reduce using rule 44 (SuiteArgs)
+
+    SuiteArgs  go to state 87
+
+
+state 73
+
+   42 SuiteArgs: tCOMA tNB . SuiteArgs
+   43          | tCOMA tNB .
+
+    tCOMA  shift, and go to state 55
+
+    $default  reduce using rule 43 (SuiteArgs)
+
+    SuiteArgs  go to state 88
+
+
+state 74
+
+   37 Fonction: tID tPO Args tPF tSEMI .
+
+    $default  reduce using rule 37 (Fonction)
+
+
+state 75
+
+   33 Cond: tPO Cond tPF .
+
+    $default  reduce using rule 33 (Cond)
+
+
+state 76
+
+    4 If: tIF tPO Cond tPF Body .
+
+    $default  reduce using rule 4 (If)
+
+
+state 77
+
+   31 Cond: Cond . tOR Cond
+   31     | Cond tOR Cond .
+   32     | Cond . tAND Cond
+
+    $default  reduce using rule 31 (Cond)
+
+
+state 78
+
+   31 Cond: Cond . tOR Cond
+   32     | Cond . tAND Cond
+   32     | Cond tAND Cond .
+
+    $default  reduce using rule 32 (Cond)
+
+
+state 79
+
+   30 Cond: Exp tEQ Exp .
+
+    $default  reduce using rule 30 (Cond)
+
+
+state 80
+
+   26 Cond: Exp tINF Exp .
+
+    $default  reduce using rule 26 (Cond)
+
+
+state 81
+
+   27 Cond: Exp tINFEG Exp .
+
+    $default  reduce using rule 27 (Cond)
+
+
+state 82
+
+   28 Cond: Exp tSUP Exp .
+
+    $default  reduce using rule 28 (Cond)
+
+
+state 83
+
+   29 Cond: Exp tSUPEG Exp .
+
+    $default  reduce using rule 29 (Cond)
+
+
+state 84
+
+   13 While: tWHILE tPO Cond tPF Body .
+
+    $default  reduce using rule 13 (While)
+
+
+state 85
+
+   24 SuiteDecl: tID tCOMA . SuiteDecl
+
+    tID  shift, and go to state 70
+
+    SuiteDecl  go to state 89
+
+
+state 86
+
+   25 SuiteDecl: tID tSEMI .
+
+    $default  reduce using rule 25 (SuiteDecl)
+
+
+state 87
+
+   41 SuiteArgs: tCOMA tID SuiteArgs .
+
+    $default  reduce using rule 41 (SuiteArgs)
+
+
+state 88
+
+   42 SuiteArgs: tCOMA tNB SuiteArgs .
+
+    $default  reduce using rule 42 (SuiteArgs)
+
+
+state 89
+
+   24 SuiteDecl: tID tCOMA SuiteDecl .
+
+    $default  reduce using rule 24 (SuiteDecl)
