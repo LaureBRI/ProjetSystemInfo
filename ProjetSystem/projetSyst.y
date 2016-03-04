@@ -60,9 +60,6 @@ Maths: Val
 	| Maths tDIV Maths
 	| Maths tMOD Maths
 
-/*REDUCE -> a revoir*/
-
-
 Val: tNB
 	| tNBE
 	| tID
@@ -108,7 +105,7 @@ Return: tRETURN
 
 /* TODO LEX : || && ... */
 
-/* TODO YACC : Revoir Maths(faire priorité des opérateurs) Gerer tPRINT tRETURN */
+/* TODO YACC : revoir tPRINT tRETURN */
 
 %%
 
