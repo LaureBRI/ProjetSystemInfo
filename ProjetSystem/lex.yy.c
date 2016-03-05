@@ -765,7 +765,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 13 "projetSyst.l"
-{printf("(\n"); return tPO;}
+{printf("Bouh\n"); return tPO;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP

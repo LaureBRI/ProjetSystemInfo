@@ -1,24 +1,13 @@
-OBJECTS=$(patsubst %.c,%.o,$(wildcard *.c))
-INCLUDE=-Iinclude
-LDFLAGS=-g
-CCFLAGS=-Wall -Werror -g
-TARGET=projetSystLex
-CC=gcc
-LD=gcc
+all : projetSyst
 
-all: $(TARGET)
+projetSyst : y.tab.c lex.yy.c
+	gcc y.tab.c lex.yy.c -ll -o projetSyst
 
-$(TARGET): $(OBJECTS)
-	@echo [LD] $@
-	$(LD) -o $@ $(LDFLAGS) $^
+y.tab.c : projetSyst.y
+	yacc -d -v projetSyst.y
 
-%.o: %.c
-	@echo [CC] $@
-	$(CC) -c $^ -o $@ $(INCLUDE) $(CCFLAGS)
+lex.yy.c : projetSyst.l
+	flex projetSyst.l
 
-info:
-	@echo OBJECTS[$(OBJECTS)]
-
-clean:
-	@echo remove target and objects
-	@rm -f $(TARGET) $(OBJECTS)
+/* tabSymb.o : tabSymb.c tabSymb.h
+	gcc -c tabSymb.c -o tabSymb.o */
