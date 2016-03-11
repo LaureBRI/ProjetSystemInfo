@@ -1,13 +1,19 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <tabSymb.h>
 int yyerror(char *s);
+
+struct tabSymb tab;
 
 %}
 
 %error-verbose
-%token tINT tVOID tID tPO tPF tIF tERROR tCOMA tAO tAF tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tSEMI tRETURN tPRINT tWHILE tNB tNBE tINF tINFEG tSUP tSUPEG tOR tAND
+%union {int varnb; float varnbe; char * varc;}
+%token <varnb> tNB
+%token <varc> tID
+%token <varnbe> tNBE
+%token tINT tVOID tPO tPF tIF tERROR tCOMA tAO tAF tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tSEMI tRETURN tPRINT tWHILE tINF tINFEG tSUP tSUPEG tOR tAND
 %left tMULT tDIV tMOD 
 %left tADD tSUB 
 %left tEQ tINF tINFEG tSUP tSUPEG
@@ -54,15 +60,15 @@ Content: If Content
 
 Maths: Val
 	| tPO Maths tPF
-	| Maths tSUB Maths
+	| Maths tSUB Maths { }
 	| Maths tADD Maths
 	| Maths tMULT Maths
 	| Maths tDIV Maths
 	| Maths tMOD Maths
 
-Val: tNB
-	| tNBE
-	| tID
+Val: tNB /*Mettre dans des variables temporaires*/ {int * nb = malloc(sizeof(int)); *nb = $1; $$ = nb;}
+	| tNBE {float * nbe = malloc(sizeof(float)); *nbe = $1; $$ = nbe;}
+	| tID /*Regarder dans la table des symboles*/ { chmpSymb * c = findEntry($1, tab); $$ = c->address}
 
 /*Déclaration sans affectation seulement*/
 Decl: Type tID tSEMI

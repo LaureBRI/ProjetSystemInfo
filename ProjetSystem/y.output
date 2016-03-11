@@ -103,28 +103,28 @@ Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-tINT (258) 7
-tVOID (259) 5
-tID (260) 3 8 9 11 12 32 33 34 35 36 47 48 49 52 55 56
-tPO (261) 3 4 13 24 44 48
-tPF (262) 3 4 13 24 44 48
-tIF (263) 4
-tERROR (264)
-tCOMA (265) 11 12 34 35 52 53 54 55
-tAO (266) 14
-tAF (267) 14
-tADD (268) 26
-tSUB (269) 25
-tMULT (270) 27
-tDIV (271) 28
-tMOD (272) 29
-tAFFECT (273) 56
-tEQ (274) 41
-tSEMI (275) 19 33 36 48 56
-tRETURN (276)
-tPRINT (277)
-tWHILE (278) 13
-tNB (279) 30 46 50 53 54
+tNB (258) 30 46 50 53 54
+tID (259) 3 8 9 11 12 32 33 34 35 36 47 48 49 52 55 56
+tINT (260) 7
+tVOID (261) 5
+tPO (262) 3 4 13 24 44 48
+tPF (263) 3 4 13 24 44 48
+tIF (264) 4
+tERROR (265)
+tCOMA (266) 11 12 34 35 52 53 54 55
+tAO (267) 14
+tAF (268) 14
+tADD (269) 26
+tSUB (270) 25
+tMULT (271) 27
+tDIV (272) 28
+tMOD (273) 29
+tAFFECT (274) 56
+tEQ (275) 41
+tSEMI (276) 19 33 36 48 56
+tRETURN (277)
+tPRINT (278)
+tWHILE (279) 13
 tNBE (280) 31
 tINF (281) 37
 tINFEG (282) 38
@@ -335,13 +335,13 @@ state 17
 
    14 Body: tAO . Content tAF
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -375,6 +375,13 @@ state 19
 
 state 20
 
+   30 Val: tNB .
+
+    $default  reduce using rule 30 (Val)
+
+
+state 21
+
    32 Val: tID .
    48 Fonction: tID . tPO Args tPF tSEMI
    56 Aff: tID . tAFFECT Maths tSEMI
@@ -385,38 +392,31 @@ state 20
     $default  reduce using rule 32 (Val)
 
 
-state 21
+state 22
 
    24 Maths: tPO . Maths tPF
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 40
     Val    go to state 32
 
 
-state 22
+state 23
 
     4 If: tIF . tPO Cond tPF Body
 
     tPO  shift, and go to state 41
 
 
-state 23
+state 24
 
    13 While: tWHILE . tPO Cond tPF Body
 
     tPO  shift, and go to state 42
-
-
-state 24
-
-   30 Val: tNB .
-
-    $default  reduce using rule 30 (Val)
 
 
 state 25
@@ -430,13 +430,13 @@ state 26
 
    15 Content: If . Content
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -465,13 +465,13 @@ state 28
 
    16 Content: While . Content
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -530,13 +530,13 @@ state 33
 
    17 Content: Decl . Content
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -557,13 +557,13 @@ state 34
 
    21 Content: Fonction . Content
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -584,13 +584,13 @@ state 35
 
    18 Content: Aff . Content
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -623,8 +623,8 @@ state 37
 
    48 Fonction: tID tPO . Args tPF tSEMI
 
-    tID  shift, and go to state 57
-    tNB  shift, and go to state 58
+    tNB  shift, and go to state 57
+    tID  shift, and go to state 58
 
     $default  reduce using rule 51 (Args)
 
@@ -635,9 +635,9 @@ state 38
 
    56 Aff: tID tAFFECT . Maths tSEMI
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 60
@@ -672,9 +672,9 @@ state 41
 
     4 If: tIF tPO . Cond tPF Body
 
-    tID  shift, and go to state 62
-    tPO  shift, and go to state 63
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
+    tPO  shift, and go to state 64
 
     Cond  go to state 65
     Exp   go to state 66
@@ -684,9 +684,9 @@ state 42
 
    13 While: tWHILE tPO . Cond tPF Body
 
-    tID  shift, and go to state 62
-    tPO  shift, and go to state 63
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
+    tPO  shift, and go to state 64
 
     Cond  go to state 67
     Exp   go to state 66
@@ -726,9 +726,9 @@ state 47
 
    26 Maths: Maths tADD . Maths
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 70
@@ -739,9 +739,9 @@ state 48
 
    25 Maths: Maths tSUB . Maths
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 71
@@ -752,9 +752,9 @@ state 49
 
    27 Maths: Maths tMULT . Maths
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 72
@@ -765,9 +765,9 @@ state 50
 
    28 Maths: Maths tDIV . Maths
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 73
@@ -778,9 +778,9 @@ state 51
 
    29 Maths: Maths tMOD . Maths
 
+    tNB   shift, and go to state 20
     tID   shift, and go to state 39
-    tPO   shift, and go to state 21
-    tNB   shift, and go to state 24
+    tPO   shift, and go to state 22
     tNBE  shift, and go to state 25
 
     Maths  go to state 74
@@ -791,13 +791,13 @@ state 52
 
    19 Content: Maths tSEMI . Content
 
+    tNB     shift, and go to state 20
+    tID     shift, and go to state 21
     tINT    shift, and go to state 1
-    tID     shift, and go to state 20
-    tPO     shift, and go to state 21
-    tIF     shift, and go to state 22
+    tPO     shift, and go to state 22
+    tIF     shift, and go to state 23
     tAO     shift, and go to state 17
-    tWHILE  shift, and go to state 23
-    tNB     shift, and go to state 24
+    tWHILE  shift, and go to state 24
     tNBE    shift, and go to state 25
 
     $default  reduce using rule 22 (Content)
@@ -844,7 +844,7 @@ state 56
 
 state 57
 
-   49 Args: tID . SuiteArgs
+   50 Args: tNB . SuiteArgs
 
     tCOMA  shift, and go to state 76
 
@@ -853,7 +853,7 @@ state 57
 
 state 58
 
-   50 Args: tNB . SuiteArgs
+   49 Args: tID . SuiteArgs
 
     tCOMA  shift, and go to state 76
 
@@ -893,28 +893,28 @@ state 61
 
 state 62
 
+   46 Exp: tNB .
+
+    $default  reduce using rule 46 (Exp)
+
+
+state 63
+
    47 Exp: tID .
 
     $default  reduce using rule 47 (Exp)
 
 
-state 63
+state 64
 
    44 Cond: tPO . Cond tPF
 
-    tID  shift, and go to state 62
-    tPO  shift, and go to state 63
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
+    tPO  shift, and go to state 64
 
     Cond  go to state 81
     Exp   go to state 66
-
-
-state 64
-
-   46 Exp: tNB .
-
-    $default  reduce using rule 46 (Exp)
 
 
 state 65
@@ -1056,22 +1056,22 @@ state 76
    54          | tCOMA . tNB
    55          | tCOMA . tID
 
-    tID  shift, and go to state 93
-    tNB  shift, and go to state 94
+    tNB  shift, and go to state 93
+    tID  shift, and go to state 94
 
 
 state 77
 
-   49 Args: tID SuiteArgs .
+   50 Args: tNB SuiteArgs .
 
-    $default  reduce using rule 49 (Args)
+    $default  reduce using rule 50 (Args)
 
 
 state 78
 
-   50 Args: tNB SuiteArgs .
+   49 Args: tID SuiteArgs .
 
-    $default  reduce using rule 50 (Args)
+    $default  reduce using rule 49 (Args)
 
 
 state 79
@@ -1112,9 +1112,9 @@ state 83
 
    42 Cond: Cond tOR . Cond
 
-    tID  shift, and go to state 62
-    tPO  shift, and go to state 63
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
+    tPO  shift, and go to state 64
 
     Cond  go to state 98
     Exp   go to state 66
@@ -1124,9 +1124,9 @@ state 84
 
    43 Cond: Cond tAND . Cond
 
-    tID  shift, and go to state 62
-    tPO  shift, and go to state 63
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
+    tPO  shift, and go to state 64
 
     Cond  go to state 99
     Exp   go to state 66
@@ -1136,8 +1136,8 @@ state 85
 
    41 Cond: Exp tEQ . Exp
 
-    tID  shift, and go to state 62
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
 
     Exp  go to state 100
 
@@ -1146,8 +1146,8 @@ state 86
 
    37 Cond: Exp tINF . Exp
 
-    tID  shift, and go to state 62
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
 
     Exp  go to state 101
 
@@ -1156,8 +1156,8 @@ state 87
 
    38 Cond: Exp tINFEG . Exp
 
-    tID  shift, and go to state 62
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
 
     Exp  go to state 102
 
@@ -1166,8 +1166,8 @@ state 88
 
    39 Cond: Exp tSUP . Exp
 
-    tID  shift, and go to state 62
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
 
     Exp  go to state 103
 
@@ -1176,8 +1176,8 @@ state 89
 
    40 Cond: Exp tSUPEG . Exp
 
-    tID  shift, and go to state 62
-    tNB  shift, and go to state 64
+    tNB  shift, and go to state 62
+    tID  shift, and go to state 63
 
     Exp  go to state 104
 
@@ -1209,24 +1209,24 @@ state 92
 
 state 93
 
-   52 SuiteArgs: tCOMA tID . SuiteArgs
-   55          | tCOMA tID .
-
-    tCOMA  shift, and go to state 76
-
-    $default  reduce using rule 55 (SuiteArgs)
-
-    SuiteArgs  go to state 108
-
-
-state 94
-
    53 SuiteArgs: tCOMA tNB . SuiteArgs
    54          | tCOMA tNB .
 
     tCOMA  shift, and go to state 76
 
     $default  reduce using rule 54 (SuiteArgs)
+
+    SuiteArgs  go to state 108
+
+
+state 94
+
+   52 SuiteArgs: tCOMA tID . SuiteArgs
+   55          | tCOMA tID .
+
+    tCOMA  shift, and go to state 76
+
+    $default  reduce using rule 55 (SuiteArgs)
 
     SuiteArgs  go to state 109
 
@@ -1330,16 +1330,16 @@ state 107
 
 state 108
 
-   52 SuiteArgs: tCOMA tID SuiteArgs .
+   53 SuiteArgs: tCOMA tNB SuiteArgs .
 
-    $default  reduce using rule 52 (SuiteArgs)
+    $default  reduce using rule 53 (SuiteArgs)
 
 
 state 109
 
-   53 SuiteArgs: tCOMA tNB SuiteArgs .
+   52 SuiteArgs: tCOMA tID SuiteArgs .
 
-    $default  reduce using rule 53 (SuiteArgs)
+    $default  reduce using rule 52 (SuiteArgs)
 
 
 state 110

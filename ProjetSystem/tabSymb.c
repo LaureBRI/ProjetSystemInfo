@@ -1,14 +1,15 @@
 #include "tabSymb.h"
 
 // Construit une ligne de la table des symboles
-struct chmpSymb buildEntry(char * n, int d, int a, int i, int c){
+struct chmpSymb buildEntry(char * n, int d, int i, int c){
 	struct chmpSymb * entry = malloc(sizeof(struct chmpSymb));
 	entry->name = malloc(strlen(n)*sizeof(char));
 	strcpy(entry->name, n);
 	//strncpy(entry->name, n, strlen(n));
 	//Pas besoin de faire strNcpy parce qu'on alloue juste la taille de n
 	entry->depth = d;
-	entry->address = a;
+	//-1 = pas encore initialisée
+	entry->address = -1;
 	entry->init = i;
 	entry->cte = c;
 
@@ -17,18 +18,23 @@ struct chmpSymb buildEntry(char * n, int d, int a, int i, int c){
 
 // Ajoute la structure elem à la liste tab
 void addEntry(struct chmpSymb elem, struct tabSymb * tab){
+	int add = -1;
+
 	if (tab == NULL){
 		tab = malloc(sizeof(struct tabSymb))
 		tab->head = malloc(sizeof(struct cellTabSymb));
 		tab->head->elem = elem;
+		tab->head->elem.address = 0;
 		tab->head->next = NULL;
 		tab->tail = tab->head;
 	}
 	else
 	{
 		tab->tail->next = malloc(sizeof(struct cellTabSymb));
+		add = tab->tail->elem.address+1;
 		tab->tail = tab->tail->next;
 		tab->tail->elem = elem;
+		tab->tail->elem.address = add;
 		tab->tail->next = NULL;
 	}
 }
@@ -70,6 +76,7 @@ struct chmpSymb * findEntry(char * n, struct tabSymb * tab){
 	}
 }
 
+//Supprimer par profondeur
 
 int main(int args, char * argv[]){
 	struct tabSymb * tab = malloc(sizeof(struct tabSymb));

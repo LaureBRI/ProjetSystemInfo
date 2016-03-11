@@ -765,7 +765,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 13 "projetSyst.l"
-{printf("Bouh\n"); return tPO;}
+{printf("(\n"); return tPO;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -885,17 +885,17 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 42 "projetSyst.l"
-{printf("id : %s\n", yytext); return tID;}
+{yylval.varc = strdup(yytext); printf("id : %s\n", yylval.varc); return tID;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 43 "projetSyst.l"
-{printf("nb : %f\n", atof(yytext)); return tNB;}
+{yylval.varnb = atoi(yytext); printf("nb : %d\n", yylval.varnb); return tNB;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 44 "projetSyst.l"
-{printf("nb : %f\n", atof(yytext)); return tNBE;}
+{yylval.varnbe = atof(yytext); printf("nb : %f\n", yylval.varnbe); return tNBE;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP

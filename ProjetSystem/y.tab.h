@@ -39,28 +39,28 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     tINT = 258,
-     tVOID = 259,
-     tID = 260,
-     tPO = 261,
-     tPF = 262,
-     tIF = 263,
-     tERROR = 264,
-     tCOMA = 265,
-     tAO = 266,
-     tAF = 267,
-     tADD = 268,
-     tSUB = 269,
-     tMULT = 270,
-     tDIV = 271,
-     tMOD = 272,
-     tAFFECT = 273,
-     tEQ = 274,
-     tSEMI = 275,
-     tRETURN = 276,
-     tPRINT = 277,
-     tWHILE = 278,
-     tNB = 279,
+     tNB = 258,
+     tID = 259,
+     tINT = 260,
+     tVOID = 261,
+     tPO = 262,
+     tPF = 263,
+     tIF = 264,
+     tERROR = 265,
+     tCOMA = 266,
+     tAO = 267,
+     tAF = 268,
+     tADD = 269,
+     tSUB = 270,
+     tMULT = 271,
+     tDIV = 272,
+     tMOD = 273,
+     tAFFECT = 274,
+     tEQ = 275,
+     tSEMI = 276,
+     tRETURN = 277,
+     tPRINT = 278,
+     tWHILE = 279,
      tNBE = 280,
      tINF = 281,
      tINFEG = 282,
@@ -71,28 +71,28 @@
    };
 #endif
 /* Tokens.  */
-#define tINT 258
-#define tVOID 259
-#define tID 260
-#define tPO 261
-#define tPF 262
-#define tIF 263
-#define tERROR 264
-#define tCOMA 265
-#define tAO 266
-#define tAF 267
-#define tADD 268
-#define tSUB 269
-#define tMULT 270
-#define tDIV 271
-#define tMOD 272
-#define tAFFECT 273
-#define tEQ 274
-#define tSEMI 275
-#define tRETURN 276
-#define tPRINT 277
-#define tWHILE 278
-#define tNB 279
+#define tNB 258
+#define tID 259
+#define tINT 260
+#define tVOID 261
+#define tPO 262
+#define tPF 263
+#define tIF 264
+#define tERROR 265
+#define tCOMA 266
+#define tAO 267
+#define tAF 268
+#define tADD 269
+#define tSUB 270
+#define tMULT 271
+#define tDIV 272
+#define tMOD 273
+#define tAFFECT 274
+#define tEQ 275
+#define tSEMI 276
+#define tRETURN 277
+#define tPRINT 278
+#define tWHILE 279
 #define tNBE 280
 #define tINF 281
 #define tINFEG 282
@@ -105,7 +105,12 @@
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 10 "projetSyst.y"
+{int varnb; float varnbe; char * varc;}
+/* Line 1529 of yacc.c.  */
+#line 113 "y.tab.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

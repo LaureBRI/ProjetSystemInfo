@@ -39,9 +39,9 @@ NB [0-9]+
 "if" {printf("if\n"); return tIF;}
 "while" {printf("while\n"); return tWHILE;}
 
-[a-zA-Z]+ {printf("id : %s\n", yytext); return tID;}
-{NB} {printf("nb : %f\n", atof(yytext)); return tNB;}
-{NB}e[+|-]?{NB} {printf("nb : %f\n", atof(yytext)); return tNBE;}
+[a-zA-Z]+ {yylval.varc = strdup(yytext); printf("id : %s\n", yylval.varc); return tID;}
+{NB} {yylval.varnb = atoi(yytext); printf("nb : %d\n", yylval.varnb); return tNB;}
+{NB}e[+|-]?{NB} {yylval.varnbe = atof(yytext); printf("nb : %f\n", yylval.varnbe); return tNBE;}
 
 %%
 
