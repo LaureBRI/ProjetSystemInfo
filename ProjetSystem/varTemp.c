@@ -20,5 +20,7 @@ int lock(){
 		}
 		i++;
 	}
+
+	
 	return i;
 }
