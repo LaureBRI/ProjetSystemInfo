@@ -18,7 +18,7 @@ NB [0-9]+
 "-" {printf("-\n"); return tSUB;}
 "*" {printf("*\n"); return tMULT;}
 "/" {printf("/\n"); return tDIV;}
-"%" {printf("%c\n",'%'); return tMOD;}
+"%" {printf("%c\n",'%'); return tMOD;} // !!!!!!!!!!
 "=" {printf("=\n"); return tAFFECT;}
 "==" {printf("==\n"); return tEQ;}
 "," {printf(",\n"); return tCOMA;}
@@ -37,11 +37,12 @@ NB [0-9]+
 "printf" {printf("printf\n"); return tPRINT;}
 
 "if" {printf("if\n"); return tIF;}
+"else" {printf("else\n"); return tELSE;}
 "while" {printf("while\n"); return tWHILE;}
 
-[a-zA-Z]+ {yylval.varc = strdup(yytext); printf("id : %s\n", yylval.varc); return tID;}
-{NB} {yylval.varnb = atoi(yytext); printf("nb : %d\n", yylval.varnb); return tNB;}
-{NB}e[+|-]?{NB} {yylval.varnbe = atof(yytext); printf("nb : %f\n", yylval.varnbe); return tNBE;}
+[a-zA-Z]+ { yylval.varc = strdup(yytext); printf("id : %s\n", yylval.varc); return tID;}
+{NB} { yylval.varnb = atoi(yytext); printf("nb : %d\n", yylval.varnb); return tNB;}
+{NB}e[+|-]?{NB} { yylval.varnbe = atof(yytext); printf("nb : %f\n", yylval.varnbe); return tNBE;}
 
 %%
 

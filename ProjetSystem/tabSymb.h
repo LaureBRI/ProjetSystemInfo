@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 struct chmpSymb {
 	char * name;
 	int depth;
@@ -25,9 +24,30 @@ struct tabSymb
 	struct cellTabSymb * tail;
 };
 
-struct chmpSymb buildEntry(char * n, int d, int a, int i, int c);
-void addEntry(struct chmpSymb elem, struct tabSymb * tab);
-void supprEntry(struct tabSymb * tab);
-struct chmpSymb * findEntry(char * n, struct tabSymb * tab);
+struct tabSymb * tab;
+
+// Construit une ligne de la table des symboles
+// avec n le nom de la variable
+// 		d la profondeur
+//		i si la variable est initialisé ou non 
+//		c si varaible est une constante
+struct chmpSymb buildEntry(char * n, int d, int i, int c);
+
+// Ajoute la structure elem à la liste tab
+void addEntry(struct chmpSymb elem);
+
+// Peut être retourner un int pour savoir si la pile était déjà vide au départ
+//Supprime le dernier élément de la liste tab
+void supprEntry();
+
+//Trouve une entrée dans la table des symboles par son nom
+struct chmpSymb * findEntry(char * n);
+
+//Supprimer les variables de la profondeur depth
+void supprByDepth(int depth);
+
+
+
+
 
 #endif

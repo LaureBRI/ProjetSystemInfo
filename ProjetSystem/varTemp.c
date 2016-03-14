@@ -1,26 +1,49 @@
 #include "varTemp.h"
 
-//-1 = non initialisé || 0 = Vrai || 1 = Faux
 
-struct varTmp{
-	int address;
-	int locked;
-};
-
-
-struct varTmp tabVarTmp[256];
-
+/* Cherche une place dans le tableau des variables temporaires
+ 	et retourne l'addresse de la variable temporaire*/
 int lock(){
-	int found = -1;
+	int found = 0;
 	int i = 0;
 
-	while(i<256 || found == 1){
-		if(tabVarTmp[i].locked == 1){
-			found = 0;
+	// trouver une place libre dans le tableau
+	while(i<256 || found == 0){
+		if(tabVarTmp[i].locked == 0){
+			found = 1;
 		}
 		i++;
 	}
 
+	if(found)
+	{
+		//affectation
+		tabVarTmp[i].locked = 1;
+		// adresse du haut de la table des symboles + i + 1
+		tabVarTmp[i].address = tab->tail->elem.address + 1 + i ;
+	}
 	
-	return i;
+	return tabVarTmp[i].address;
+}
+
+
+/* Libère la varibale temporaire à l'indice ind de la table tabVarTmp 
+	retourne 0 si réussi -1 sinon*/ 
+int unlock(int addr){
+	int i = 0;
+	int found = 0;
+
+	while(i<256 || found == 0){ 
+		if(tabVarTmp[i].address == addr){
+			found = 1;
+		}
+		i++;
+	}
+
+	if(found)
+	{
+		tabVarTmp[i].locked = 0;
+		return 0;
+	}
+	return -1;
 }

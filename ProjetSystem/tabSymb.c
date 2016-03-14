@@ -17,11 +17,11 @@ struct chmpSymb buildEntry(char * n, int d, int i, int c){
 }
 
 // Ajoute la structure elem à la liste tab
-void addEntry(struct chmpSymb elem, struct tabSymb * tab){
+void addEntry(struct chmpSymb elem){
 	int add = -1;
 
 	if (tab == NULL){
-		tab = malloc(sizeof(struct tabSymb))
+		tab = malloc(sizeof(struct tabSymb));
 		tab->head = malloc(sizeof(struct cellTabSymb));
 		tab->head->elem = elem;
 		tab->head->elem.address = 0;
@@ -41,16 +41,14 @@ void addEntry(struct chmpSymb elem, struct tabSymb * tab){
 
 // Peut être retourner un int pour savoir si la pile était déjà vide au départ
 //Supprime le dernier élément de la liste tab
-void supprEntry(struct tabSymb * tab){
-	struct cellTabSymb * courant;
+void supprEntry(){
 	struct cellTabSymb * next;
 	next = tab->head;
 
-/*	if (tab == NULL){
-		return -1
+	if (tab == NULL){
+		exit(-1);
 	}
-	else
-*/
+
 	while(next->next != tab->tail){
 		next = next->next;
 	}
@@ -60,7 +58,7 @@ void supprEntry(struct tabSymb * tab){
 }
 
 //Trouve une entrée dans la table des symboles par son nom
-struct chmpSymb * findEntry(char * n, struct tabSymb * tab){
+struct chmpSymb * findEntry(char * n){
 	struct cellTabSymb * courant;
 	courant = tab->head;
 
@@ -76,23 +74,34 @@ struct chmpSymb * findEntry(char * n, struct tabSymb * tab){
 	}
 }
 
-//Supprimer par profondeur
+//Supprimer les variables de la profondeur depth
+void supprByDepth(int depth)
+{
+	while(tab->tail->elem.depth == depth)
+	{
+		supprEntry();
+	}
+}
 
-int main(int args, char * argv[]){
-	struct tabSymb * tab = malloc(sizeof(struct tabSymb));
-	struct chmpSymb entry = buildEntry("toto", 1, 2, 1, 1);
+
+
+
+
+/*int main(int args, char * argv[]){
+	tab = malloc(sizeof(struct tabSymb));
+	struct chmpSymb entry = buildEntry("toto", 2, 1, 1);
 
 	struct tabSymb * courant;
 	courant = tab;
 
-	addEntry(*entry, tab);
+	addEntry(entry);
 
-/*	while(courant->next != NULL){
-		printf("%s\n", courant->elem.name );
-		courant = courant->next;
-	}*/
+	//while(courant->next != NULL){
+	//	printf("%s\n", courant->elem.name );
+	//	courant = courant->next;
+	//}
 
 	return 0;
-}
+}*/
 
 

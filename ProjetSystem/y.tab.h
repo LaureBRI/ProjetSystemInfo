@@ -41,75 +41,77 @@
    enum yytokentype {
      tNB = 258,
      tID = 259,
-     tINT = 260,
-     tVOID = 261,
-     tPO = 262,
-     tPF = 263,
-     tIF = 264,
-     tERROR = 265,
-     tCOMA = 266,
-     tAO = 267,
-     tAF = 268,
-     tADD = 269,
-     tSUB = 270,
-     tMULT = 271,
-     tDIV = 272,
-     tMOD = 273,
-     tAFFECT = 274,
-     tEQ = 275,
-     tSEMI = 276,
-     tRETURN = 277,
-     tPRINT = 278,
-     tWHILE = 279,
-     tNBE = 280,
-     tINF = 281,
-     tINFEG = 282,
-     tSUP = 283,
-     tSUPEG = 284,
-     tOR = 285,
-     tAND = 286
+     tNBE = 260,
+     tINT = 261,
+     tVOID = 262,
+     tPO = 263,
+     tPF = 264,
+     tIF = 265,
+     tELSE = 266,
+     tERROR = 267,
+     tCOMA = 268,
+     tAO = 269,
+     tAF = 270,
+     tADD = 271,
+     tSUB = 272,
+     tMULT = 273,
+     tDIV = 274,
+     tMOD = 275,
+     tAFFECT = 276,
+     tEQ = 277,
+     tSEMI = 278,
+     tRETURN = 279,
+     tPRINT = 280,
+     tWHILE = 281,
+     tINF = 282,
+     tINFEG = 283,
+     tSUP = 284,
+     tSUPEG = 285,
+     tOR = 286,
+     tAND = 287
    };
 #endif
 /* Tokens.  */
 #define tNB 258
 #define tID 259
-#define tINT 260
-#define tVOID 261
-#define tPO 262
-#define tPF 263
-#define tIF 264
-#define tERROR 265
-#define tCOMA 266
-#define tAO 267
-#define tAF 268
-#define tADD 269
-#define tSUB 270
-#define tMULT 271
-#define tDIV 272
-#define tMOD 273
-#define tAFFECT 274
-#define tEQ 275
-#define tSEMI 276
-#define tRETURN 277
-#define tPRINT 278
-#define tWHILE 279
-#define tNBE 280
-#define tINF 281
-#define tINFEG 282
-#define tSUP 283
-#define tSUPEG 284
-#define tOR 285
-#define tAND 286
+#define tNBE 260
+#define tINT 261
+#define tVOID 262
+#define tPO 263
+#define tPF 264
+#define tIF 265
+#define tELSE 266
+#define tERROR 267
+#define tCOMA 268
+#define tAO 269
+#define tAF 270
+#define tADD 271
+#define tSUB 272
+#define tMULT 273
+#define tDIV 274
+#define tMOD 275
+#define tAFFECT 276
+#define tEQ 277
+#define tSEMI 278
+#define tRETURN 279
+#define tPRINT 280
+#define tWHILE 281
+#define tINF 282
+#define tINFEG 283
+#define tSUP 284
+#define tSUPEG 285
+#define tOR 286
+#define tAND 287
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 10 "projetSyst.y"
+#line 19 "projetSyst.y"
 {int varnb; float varnbe; char * varc;}
 /* Line 1529 of yacc.c.  */
-#line 113 "y.tab.h"
+#line 115 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
