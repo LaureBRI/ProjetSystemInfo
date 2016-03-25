@@ -77,9 +77,15 @@ struct chmpSymb * findEntry(char * n){
 //Supprimer les variables de la profondeur depth
 void supprByDepth(int depth)
 {
-	while(tab->tail->elem.depth == depth)
+	struct cellTabSymb * courant;
+	courant = tab->head;
+	while(courant->next != NULL)
 	{
-		supprEntry();
+		if(courant->elem.depth == depth)
+		{	
+			supprEntry();
+		}
+		courant = courant->next;
 	}
 }
 

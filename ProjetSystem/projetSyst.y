@@ -17,16 +17,20 @@ int depth = 0;
 %}
 
 %error-verbose
-%union {int varnb; float varnbe; char * varc;}
+%union {int varnb; float varnbe; char * varc; 
+		struct typeWhile{int to; int from;} typeWhile;
+		}
 %token <varnb> tNB
 %token <varc> tID
 %token <varnbe> tNBE
 %token <varnb> tIF 
-%token tINT tVOID tPO tPF tELSE tERROR tCOMA tAO tAF tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tSEMI tRETURN tPRINT tWHILE tINF tINFEG tSUP tSUPEG tOR tAND
+%token <typeWhile> tWHILE
+%token tINT tVOID tPO tPF tELSE tERROR tCOMA tAO tAF tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tSEMI tRETURN tPRINT tINF tINFEG tSUP tSUPEG tOR tAND
 /*typage des non terminaux */
 %type <varnb> Maths
 %type <varnb> Val 
-
+%type <varnb> Cond
+%type <varnb> Exp
 
 %left tMULT tDIV tMOD 
 %left tADD tSUB 
@@ -43,8 +47,8 @@ Input: DFonction Input
 
 // Déclaration des fonctions 
 DFonction: FType tID tPO Params tPF Body
-
-If: tIF tPO Cond { int l = new_label(); $1 = l; printf("JMP %d %d\n", $3, l); pc++;} tPF Body SuiteIf
+ 
+If: tIF tPO Cond { int l = new_label(); $1 = l; printf("JMF %d %d\n", $3, l); pc++;} tPF Body { set_label($1,pc); } SuiteIf
 
 SuiteIf : tELSE Body | ;
 
@@ -61,7 +65,10 @@ Params: Type tID
 SuiteParams: tCOMA Type tID
 	|tCOMA Type tID SuiteParams
 
-While: tWHILE tPO Cond tPF Body
+While: tWHILE /*{$1.to = pc;}*/ tPO Cond { int l = new_label(); $1.from = l; printf("JMF %d %d\n", $3, l); pc++;} tPF Body { set_label($1.from,pc); 
+																															printf("JMP %d\n", $1.to );
+																															pc++;
+																															}
 
 Body: tAO {depth++;} Content tAF { supprByDepth(depth); depth--;}
 
@@ -84,7 +91,7 @@ Maths: Val
 						$$ = $1;}
 	| Maths tSUB Maths { printf("SOU %d %d %d\n", $1, $1, $3); 
 						pc++; 
-							unlock($3); 
+						unlock($3); 
 						$$ = $1;}
 	| Maths tMULT Maths { printf("MUL %d %d %d\n", $1, $1, $3); 
 						pc++; 
@@ -111,20 +118,27 @@ Decl: Type tID tSEMI { struct chmpSymb nouv = buildEntry($2, depth, 0, 0); addEn
 SuiteDecl: tID {struct chmpSymb nouv = buildEntry($1, depth, 0, 0); addEntry(nouv);} tCOMA SuiteDecl
 	| tID tSEMI {struct chmpSymb nouv = buildEntry($1, depth, 0, 0); addEntry(nouv);}
 
-Cond: Exp tINF Exp
-	| Exp tINFEG Exp
-	| Exp tSUP Exp
-	| Exp tSUPEG Exp
-	| Exp tEQ Exp
+Cond: Exp tINF Exp { printf("INF %d %d %d\n", $1, $1, $3); pc++; }
+	| Exp tINFEG Exp { 
+					}
+	| Exp tSUP Exp{ printf("SUP %d %d %d\n", $1, $1, $3); pc++; }
+	| Exp tSUPEG Exp { 
+
+					}
+	| Exp tEQ Exp { printf("EQU %d %d %d\n", $1, $1, $3); pc++; 
+					}
 	| Cond tOR Cond
 	| Cond tAND Cond
 	| tPO Cond tPF
 	| Exp
 
-Exp: tNB | tID
+Exp: tNB 
+	| tID { struct chmpSymb * c = findEntry($1); $$ = c->address;}
 
 //appel de  fonction f(a); --> table des fonctions
 Fonction: tID tPO Args tPF tSEMI
+
+
 
 Args: tID SuiteArgs
 	| tNB SuiteArgs
@@ -143,14 +157,20 @@ Aff: tID tAFFECT Maths tSEMI { struct chmpSymb * c = findEntry($1);
 
 /* Rajouter si on décide de prendre en charge d'autres types */
 
-Print: tPRINT
+//Print: tPRINT
 
-Return: tRETURN
+//Return: tRETURN
 
 
 /* TODO LEX : || && ... */
 
-/* TODO YACC : revoir tPRINT tRETURN */
+/* TODO YACC : 
+		revoir le While {} avant Condition
+		Table des fonctions
+		Condition INFEG SUPEG...
+		revoir tPRINT tRETURN */
+
+/* TODO : à faire interpréteur */
 
 %%
 

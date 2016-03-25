@@ -8,7 +8,7 @@ int new_label()
 	return tabLab[label][0];
 }
 
-// Affecte la valeur val (adresse du label) du label numLabel
+// Affecte la valeur val (adresse du label) au label numLabel
 void set_label(int numLabel, int val)
 {
 	tabLab[numLabel][1] = val;

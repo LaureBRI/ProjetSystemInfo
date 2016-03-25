@@ -42,27 +42,27 @@
      tNB = 258,
      tID = 259,
      tNBE = 260,
-     tINT = 261,
-     tVOID = 262,
-     tPO = 263,
-     tPF = 264,
-     tIF = 265,
-     tELSE = 266,
-     tERROR = 267,
-     tCOMA = 268,
-     tAO = 269,
-     tAF = 270,
-     tADD = 271,
-     tSUB = 272,
-     tMULT = 273,
-     tDIV = 274,
-     tMOD = 275,
-     tAFFECT = 276,
-     tEQ = 277,
-     tSEMI = 278,
-     tRETURN = 279,
-     tPRINT = 280,
-     tWHILE = 281,
+     tIF = 261,
+     tWHILE = 262,
+     tINT = 263,
+     tVOID = 264,
+     tPO = 265,
+     tPF = 266,
+     tELSE = 267,
+     tERROR = 268,
+     tCOMA = 269,
+     tAO = 270,
+     tAF = 271,
+     tADD = 272,
+     tSUB = 273,
+     tMULT = 274,
+     tDIV = 275,
+     tMOD = 276,
+     tAFFECT = 277,
+     tEQ = 278,
+     tSEMI = 279,
+     tRETURN = 280,
+     tPRINT = 281,
      tINF = 282,
      tINFEG = 283,
      tSUP = 284,
@@ -75,27 +75,27 @@
 #define tNB 258
 #define tID 259
 #define tNBE 260
-#define tINT 261
-#define tVOID 262
-#define tPO 263
-#define tPF 264
-#define tIF 265
-#define tELSE 266
-#define tERROR 267
-#define tCOMA 268
-#define tAO 269
-#define tAF 270
-#define tADD 271
-#define tSUB 272
-#define tMULT 273
-#define tDIV 274
-#define tMOD 275
-#define tAFFECT 276
-#define tEQ 277
-#define tSEMI 278
-#define tRETURN 279
-#define tPRINT 280
-#define tWHILE 281
+#define tIF 261
+#define tWHILE 262
+#define tINT 263
+#define tVOID 264
+#define tPO 265
+#define tPF 266
+#define tELSE 267
+#define tERROR 268
+#define tCOMA 269
+#define tAO 270
+#define tAF 271
+#define tADD 272
+#define tSUB 273
+#define tMULT 274
+#define tDIV 275
+#define tMOD 276
+#define tAFFECT 277
+#define tEQ 278
+#define tSEMI 279
+#define tRETURN 280
+#define tPRINT 281
 #define tINF 282
 #define tINFEG 283
 #define tSUP 284
@@ -108,10 +108,12 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 19 "projetSyst.y"
-{int varnb; float varnbe; char * varc;}
+#line 20 "projetSyst.y"
+{int varnb; float varnbe; char * varc; 
+		struct typeWhile{int to; int from;} typeWhile;
+		}
 /* Line 1529 of yacc.c.  */
-#line 115 "y.tab.h"
+#line 117 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
