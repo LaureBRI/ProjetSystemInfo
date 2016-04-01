@@ -7,11 +7,10 @@
 
 int yyerror(char *s);
 
-// program counter 
-// pour savoir le numéro d'instructions 
+/*Program Counter - Pour savoir le numéro d'instructions*/ 
 int pc = 0;
 
-// profondeur du bloc courant
+/*Profondeur du bloc courant*/
 int depth = 0;
 
 %}
@@ -26,18 +25,20 @@ int depth = 0;
 %token <varnb> tIF 
 %token <typeWhile> tWHILE
 %token tINT tVOID tPO tPF tELSE tERROR tCOMA tAO tAF tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tSEMI tRETURN tPRINT tINF tINFEG tSUP tSUPEG tOR tAND
-/*typage des non terminaux */
+/*Typage des non terminaux */
 %type <varnb> Maths
 %type <varnb> Val 
 %type <varnb> Cond
 %type <varnb> Exp
 
+/*Spécification de priorité pour les opérateurs arithmétiques*/
 %left tMULT tDIV tMOD 
 %left tADD tSUB 
 %left tEQ tINF tINFEG tSUP tSUPEG
 %left tAND tOR
 %right tAFFECT
 
+/*Axiome de départ*/
 %start Input 
 
 %%
@@ -45,14 +46,14 @@ int depth = 0;
 Input: DFonction Input
 	|;
 
-// Déclaration des fonctions 
+/*Déclaration des fonctions*/ 
 DFonction: FType tID tPO Params tPF Body
  
 If: tIF tPO Cond { int l = new_label(); $1 = l; printf("JMF %d %d\n", $3, l); pc++;} tPF Body { set_label($1,pc); } SuiteIf
 
 SuiteIf : tELSE Body | ;
 
-/* Full Type */
+/*Full Type*/
 FType: tVOID | Type
 
 /*A completer si on veut pouvoir traiter d'autres types par la suite*/
