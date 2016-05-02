@@ -30,6 +30,8 @@ NB [0-9]+
 "&&" {printf("&&\n"); return tAND;}
 "||" {printf("||\n"); return tOR;}
 
+"main" {printf("main\n"); return tMAIN;}
+
 "int" {printf("int\n"); return tINT;}
 
 "return" {printf("return\n"); return tRETURN;}

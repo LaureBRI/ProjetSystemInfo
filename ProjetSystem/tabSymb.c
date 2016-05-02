@@ -2,6 +2,11 @@
 
 // Construit une ligne de la table des symboles
 struct chmpSymb buildEntry(char * n, int d, int i, int c){
+		if (i < 0 || i > 1) {
+		 printf("erreur-buildEntry(%s,%d,%d,&d)-Init inconnu\n",
+		 n, d , i, c);
+		 return NULL ; 
+	}
 	struct chmpSymb * entry = malloc(sizeof(struct chmpSymb));
 	entry->name = malloc(strlen(n)*sizeof(char));
 	strcpy(entry->name, n);
@@ -17,8 +22,9 @@ struct chmpSymb buildEntry(char * n, int d, int i, int c){
 }
 
 // Ajoute la structure elem à la liste tab
-void addEntry(struct chmpSymb elem){
+int addEntry(struct chmpSymb elem){
 	int add = -1;
+	int ret = -1;
 
 	if (tab == NULL){
 		tab = malloc(sizeof(struct tabSymb));
@@ -27,6 +33,7 @@ void addEntry(struct chmpSymb elem){
 		tab->head->elem.address = 0;
 		tab->head->next = NULL;
 		tab->tail = tab->head;
+		ret = 0;
 	}
 	else
 	{
@@ -36,17 +43,19 @@ void addEntry(struct chmpSymb elem){
 		tab->tail->elem = elem;
 		tab->tail->elem.address = add;
 		tab->tail->next = NULL;
+		ret = 0;
 	}
+	return ret;
 }
 
-// Peut être retourner un int pour savoir si la pile était déjà vide au départ
 //Supprime le dernier élément de la liste tab
-void supprEntry(){
+// return : 0 si ok, 1 si la pile était déjà vide
+int supprEntry(){
 	struct cellTabSymb * next;
 	next = tab->head;
 
 	if (tab == NULL){
-		exit(-1);
+		return 1;
 	}
 
 	while(next->next != tab->tail){
@@ -55,6 +64,8 @@ void supprEntry(){
 	tab->tail = next;
 	free(tab->tail->next);
 	tab->tail->next = NULL;
+
+	return 0;
 }
 
 //Trouve une entrée dans la table des symboles par son nom
@@ -75,18 +86,27 @@ struct chmpSymb * findEntry(char * n){
 }
 
 //Supprimer les variables de la profondeur depth
-void supprByDepth(int depth)
+int supprByDepth(int depth)
 {
+	int ret = 0;
+
 	struct cellTabSymb * courant;
 	courant = tab->head;
 	while(courant->next != NULL)
 	{
 		if(courant->elem.depth == depth)
 		{	
-			supprEntry();
+			ret = supprEntry();
+			if (ret == -1){
+				printf("Err supprByDepth - supprEntry\n");
+				return -1
+			}
+
 		}
 		courant = courant->next;
 	}
+
+	return 0;
 }
 
 
