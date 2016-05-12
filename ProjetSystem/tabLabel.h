@@ -1,9 +1,11 @@
 #ifndef _TABLABEL_H_
 #define _TABLABEL_H_
 
-int label = 0;
+int label;
 
 int tabLab[256][2];
+
+void init_label();
 
 // Retourne le numéro du label
 int new_label();

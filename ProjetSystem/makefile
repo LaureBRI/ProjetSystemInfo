@@ -1,6 +1,6 @@
-all : projetSyst
+all : projetSyst2
 
-projetSyst : y.tab.c lex.yy.c 
+projetSyst2 : y.tab.c lex.yy.c
 	gcc -Wall y.tab.c lex.yy.c tabSymb.c varTemp.c tabLabel.c -ll -o projetSyst
 
 y.tab.c : projetSyst.y 

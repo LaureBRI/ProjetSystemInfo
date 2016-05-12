@@ -11,13 +11,14 @@
 	// Ajouter "Fonction" où l'on peut faire des appels de fonctions
 
 
-int yyerror(char *s);
+void yyerror(char *s);
 
 /*Program Counter - Pour savoir le numéro d'instructions*/ 
 int pc = 0;
 
 /*Profondeur du bloc courant*/
 int depth = 0;
+
 /*Fichier qui récupère les instructions asm*/
 FILE * fasm ; 
 %}
@@ -32,12 +33,11 @@ FILE * fasm ;
 %token <varnb> tIF 
 %token <typeWhile> tWHILE
 %token tMAIN tPO tPF tAO tAF 
-%token tINT tVOID tERROR tRETURN tPRINT tELSE tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tINFEG tSUP tSUPEG tOR tAND
+%token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tINFEG tSUP tSUPEG tOR tAND
 /*Typage des non terminaux */
 %type <varnb> Maths
 %type <varnb> Val 
-%type <varnb> Cond
-%type <varnb> Exp
+//%type <varnb> Cond
 
 /*Spécification de priorité pour les opérateurs arithmétiques*/
 %left tMULT tDIV tMOD 
@@ -53,9 +53,14 @@ FILE * fasm ;
 
 /*****************************/
 
-// TODO --> Déclaration de fonction avant le main, et corps des fonctions après le tAF
-/* Organisation générale  : main () { Corps } */
-Input : DeclFonc tMAIN tPO tPF tAO Body tAF CorpsFonc
+/* Organisation générale  : déclaration_des_fonctions main () { Corps } */
+Input: Functions Main
+
+Functions: DefFonc Functions
+	| ;
+
+Main: tINT tMAIN tPO tPF tAO Body tAF
+//Input : DefFonc FType tMAIN tPO tPF tAO Body tAF // TODO : faire main(){}
 
 /*Full Type*/
 FType: tVOID | tINT
@@ -64,181 +69,211 @@ FType: tVOID | tINT
 Body: PDeclars PInsts 	
 
 /* Déclarations : partie vide ou déclarations de variable */ 
-PDeclars: Decl
-	|;
+PDeclars: Decl PDeclars
+	| ;
 
 /* variables déclarées  : [int id] ou [int id, id2, id3] ou [const int id] ou [int id = exp] ou [int * id] */  
-Decl: tINT tID tSEMI { struct chmpSymb nouv = buildEntry($2, depth, 0, 0); addEntry(nouv); }
-	|tCONST tINT tID tSEMI
-	|tINT tMULT tID tSEMI
-	// ATENTION : Exp à vérifier ici
-	|tINT tID tAFFECT Exp
-	|tINT tID { struct chmpSymb nouv = buildEntry($2, depth, 0, 0); addEntry(nouv); } tCOMA SuiteDecl
+Decl: 
+	tINT tID tSEMI 
+	{
+		struct chmpSymb nouv = buildEntry($2, depth, 0, 0); 
+		addEntry(nouv);
+	}
+	| tCONST tINT tID tSEMI
+	{
+		//TODO
+	}
+	| tINT tMULT tID tSEMI
+	{
+		//TODO
+	}
+	| tINT tID tAFFECT Maths tSEMI
+	{
+		//TODO
+	}
+	| tINT tID 
+	{
+		struct chmpSymb nouv = buildEntry($2, depth, 0, 0);
+		addEntry(nouv); 
+	} tCOMA SuiteDecl
 
-SuiteDecl: tID {struct chmpSymb nouv = buildEntry($1, depth, 0, 0); addEntry(nouv);} tCOMA SuiteDecl
-	| tID tSEMI {struct chmpSymb nouv = buildEntry($1, depth, 0, 0); addEntry(nouv);}
+SuiteDecl: 
+	tID 
+	{
+		struct chmpSymb nouv = buildEntry($1, depth, 0, 0);
+		addEntry(nouv);
+	} tCOMA SuiteDecl
+	| tID tSEMI 
+	{
+		struct chmpSymb nouv = buildEntry($1, depth, 0, 0);
+		addEntry(nouv);
+	}
 
 /* Partie Instructions : liste de Stucture d'instruction ou vide */ 
-PInsts: Structure Insts	
+PInsts: Structure PInsts	
 	|;
 	
 /* une structure d'instruction est soit une instruction simple, soit un bloc if soit un bloc while */ 		
-Structure: Inst tSepPtVir
+Structure: Inst tSEMI
 	| BlocIF
 	| BlocWhile
 
 /* une instruction est soit une expression, soit une affectation soit un printf */ 
-Inst: Exp 
+Inst: Maths 
 	| Affect
 	| Printf
 
+/* une expression mathématique est TODO*/
 Maths: Val
 	| tPO Maths tPF
-	| Maths tADD Maths { printf("ADD %d %d %d\n", $1, $1, $3); 
-						pc++; 
-						unlock($3); 
-						$$ = $1;}
-	| Maths tSUB Maths { printf("SOU %d %d %d\n", $1, $1, $3); 
-						pc++; 
-						unlock($3); 
-						$$ = $1;}
-	| Maths tMULT Maths { printf("MUL %d %d %d\n", $1, $1, $3); 
-						pc++; 
-						unlock($3); 
-						$$ = $1;}
-	| Maths tDIV Maths { printf("DIV %d %d %d\n", $1, $1, $3); 
-						pc++; 
-						unlock($3); 
-						$$ = $1;}
+	| Maths tADD Maths 
+	{
+		fprintf(fasm, "ADD %d %d %d\n", $1, $1, $3);
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
+	| Maths tSUB Maths 
+	{
+		fprintf(fasm, "SOU %d %d %d\n", $1, $1, $3); 
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
+	| Maths tMULT Maths 
+	{
+		fprintf(fasm, "MUL %d %d %d\n", $1, $1, $3);
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
+	| Maths tDIV Maths
+	{
+		fprintf(fasm, "DIV %d %d %d\n", $1, $1, $3); 
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
 	| Maths tMOD Maths
-// pointeurs : 
-	| tMULT tID 
-			{
-			// Creer var tmp.
-			int adrTmp = ajoutTable("-",0,1); 
-			int adrIde = rechercheSymbole($2); 
-			if (adrTmp == -1 ) 
-			  { yyerror("ajoutTable\n"); }
-			if (adrIde == -1 ) 
-		  		{yyerror("rechercheSymbole\n"); }
-			
-			// Traduction ASM
-			printf("COP %d %d\n", adrTmp,adrIde);
-			fprintf (a,"COP %d %d\n", adrTmp,adrIde);
-			asm_offset++; 
-			// Affectation valeur de Exp
-			$$ = adrTmp ; 
-			}
+	// pointeurs
+	// Maths retourne add temps, on va déréférencer ce qui est déjà dans une add temp, pas la peine d'en refaire une
+	| tMULT Maths 
+	{
+		int addr = $2;
+		fprintf(fasm, "COPA %d %d \n", addr, addr);
+		pc++;
+		$$ = addr;
+	}
 
-Val: tNB /*Mettre dans des variables temporaires*/ { int n = lock(); printf("AFC %d %d\n", n, $1); pc++; $$ = n;}
-	| tNBE /*{float * nbe = malloc(sizeof(float)); *nbe = $1; $$ = nbe;}*/
-	| tID /*Regarder dans la table des symboles*/ { struct chmpSymb * c = findEntry($1); printf("COP \n"); pc++; $$ = c->address;}
+Val: 
+	tNB /*Mettre dans des variables temporaires*/ 
+	{ 
+		int n = lock();
+		fprintf(fasm, "AFC %d %d\n", n, $1);
+		pc++;
+		$$ = n;
+	}
+	// TODO
+	/*| tNBE 
+	{
+		float * nbe = malloc(sizeof(float));
+		*nbe = $1;
+		$$ = nbe;
+	}*/
+	| tID /*Regarder dans la table des symboles*/ 
+	{ 
+		int n = lock(); 
+		struct chmpSymb * c = findEntry($1); 
+		fprintf(fasm, "COP %d %d\n", n, c->address);
+		pc++; 
+		$$ = n;
+	}
 
 /* une affectation est un identifiant = une expression */
-Affect: tID tAFFECT Maths tSEMI { struct chmpSymb * c = findEntry($1); 
-								printf("COP %d %d\n", c->address, $3); 
-								pc++; 
-								c->init = 1; 
-								unlock($3); }
-		|tMULT tID tAFFECT Maths  
-		  { // TODO !
-		  }
+Affect: 
+	tID tAFFECT Maths 
+	{ 
+		struct chmpSymb * c = findEntry($1); 
+		fprintf(fasm, "COP %d %d\n", c->address, $3); 
+		pc++; 
+		c->init = 1; 
+		unlock($3); 
+	}
+	| tMULT tID tAFFECT Maths  
+	{ 
+		// TODO
+	}
 
 /* affichage : printf ( Exp ) */ 
-Printf 
-		: tPRINT tPO Maths tPF
-		{
-			fprintf (fasm,"PRI %d\n", $3);
-		 	printf("PRI %d\n", $3); 
-		 	asm_offset++; 
-		}	
+Printf: 
+	tPRINT tPO Maths tPF
+	{
+		fprintf (fasm,"PRI %d\n", $3);
+	 	pc++; 
+	}	
 		
 /* IF : deux cas : if ou if else */ 	
-BlocIF: /* ------------ IF + ELSE -------------- */
-		tIF tPO Maths tPF 
-		{
-			fprintf (fasm, "JMF %d \n", $3); 
-		 
-			if (ajoutLabel(asm_offset) == -1 ) 
-				{ yyerror("ajoutLabel\n"); }
-				
-			$1 = get_tl_offset()-1; // l'offset a déjà été incrémenté par l'ajout du label
-			asm_offset++;
-		}
-		tAO PInsts tAF
-		{
-			if (renseigneLabelAdr($1, asm_offset) == -1 )
-		     	{ yyerror("renseigneLabelAdr\n"); }	
-		     	// saut à la fin du else  => adresse encore inconnue : ajout table symbole
+BlocIF: 
+	/* ------------ IF + ELSE -------------- */
+	tIF tPO Maths tPF 
+	{
+		fprintf (fasm, "JMF %d \n", $3); 
+		pc++;
+	}
+	tAO PInsts tAF
+	{
+		
+	    // saut à la fin du else  => adresse encore inconnue : ajout table symbole
 
-			if (ajoutLabel(asm_offset) == -1 ) 
-				{ yyerror("ajoutLabel\n"); }
-				
-		    	fprintf (a, "JMP \n"); 
-		    	asm_offset++;
-		}
-		tELSE tAO
-		{  
-		    	if (renseigneLabel(asm_offset) == -1 )
-		     	{ yyerror("renseigneLabel\n"); }	
-		}
-		PInsts tAF 
-		|/* ------------ IF -------------- */ 
-		tIF tPO Maths tPF 
-		{
-			fprintf (fasm, "JMF %d \n", $3); 
-			 
-			if (ajoutLabel(asm_offset) == -1 ) 
-				{ yyerror("ajoutLabel\n"); }
-				
-			$1 = get_tl_offset()-1; // l'offset a déjà été incrémenté par l'ajout du label
-			asm_offset++;
-		    }
-		    tAO PInsts tAF
-		    {
-		    	if (renseigneLabelAdr($1, asm_offset) == -1 )
-		     		{ yyerror("renseigneLabelAdr\n"); }	
-		    }
-		; 
+	   	fprintf (fasm, "JMP \n"); 
+	    pc++;
+	}
+	tELSE tAO
+	{  
+	 	
+	}
+	PInsts tAF 
+	/* ------------ IF -------------- */
+	| tIF tPO Maths tPF 
+	{
+		fprintf (fasm, "JMF %d \n", $3); 
+	}
+	tAO PInsts tAF
+    {
+
+    }
+	; 
 
 /* Bloc WHILE : while ( expression ) { instructions } */
-BlocWhile: tWHILE tPO 
-			{ $1 = asm_offset ; // l'offset a déjà été incrémenté par l'ajout du label
-			} 
-			Maths tPF
-			{
-				fprintf (a, "JMF %d \n", $4); 
-				 if (ajoutLabel(asm_offset) == -1 ) 
-				{ yyerror("ajoutLabel\n"); }
-				
-				$4 = get_tl_offset()-1; // l'offset a déjà été incrémenté par l'ajout du label
-				
-				asm_offset++;
-			}
-			tAO PInsts tAF
-			{
-				if (renseigneLabelAdr($4, asm_offset+1) == -1 )
-		     		{ yyerror("renseigneLabelAdr\n"); }	
-		     	
-		    	fprintf (a, "JMP %d \n", $1); 
-		    	asm_offset++;
-		    }
+BlocWhile: 
+	tWHILE tPO 
+	{
+		$1.to = pc ; // l'offset a déjà été incrémenté par l'ajout du label
+	} 
+	Maths tPF
+	{
+		fprintf (fasm, "JMF %d \n", $4);				
+		pc++;
+	}
+	tAO PInsts tAF
+	{		     	
+    	fprintf (fasm, "JMP %d \n", $1); 
+    	pc++;
+    }
 
 // Partie Fonction : DeclFonc et CorpsFonc et appel de fonction
-// Déclaration des fonctions :
-DeclFonc: FType tID tPO Args tPF tSEMI
+// Définition des fonctions :
+DefFonc: FType tID tPO Args tPF tAO Body tAF //DefFonc
+	| ;
 
 Args: tID SuiteArgs
 	| tNB SuiteArgs
-	|;
+	| ;
 
 SuiteArgs: tCOMA tID SuiteArgs
 	| tCOMA tNB SuiteArgs
 	| tCOMA tNB
 	| tCOMA tID
-
-// Définition des fonctions :
-CorpsFonc: FType tID tPO Args tPF tAO Body tAF
 
 //appel de  fonction f(a); --> table des fonctions
 Fonction: tID tPO Args tPF tSEMI
@@ -246,22 +281,25 @@ Fonction: tID tPO Args tPF tSEMI
 
 
 %%
+extern int yylineno;
 /* Fonction de gestion des erreurs */ 
 void yyerror(char *s)
 {
-     printf("ERREUR COMPILATEUR : ligne %d : %s \n", yylineno, s);
+	printf("ERREUR COMPILATEUR : ligne %d : %s \n", yylineno, s);
 }
+
 /* Fonction Main de Yacc pour lancer le parseur */ 
 int main(void) {
-	initTableSymbole() ; 
-	initTableLabel() ; 
-	asm_offset = 0 ;
+	//initTableSymbole() ; 
+	init_label();
+	pc = 0 ;
  	fasm = fopen("asm.txt", "w");
 	printf("\n\n");
 	yyparse();
-	afficheSymboles(); 
-	afficheLabels(); 
-	fclose(a);
-	recopie();
+	//afficheSymboles(); 
+	//afficheLabels(); 
+	fclose(fasm);
+	printf("J'ai close !\n");
+	//recopie();
 	return 0;
 }

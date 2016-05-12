@@ -8,11 +8,11 @@ int lock(){
 	int i = 0;
 
 	// trouver une place libre dans le tableau
-	while(i<256 || found == 0){
+	for(i = 0; i < 256; i++){
 		if(tabVarTmp[i].locked == 0){
 			found = 1;
+			break;
 		}
-		i++;
 	}
 
 	if(found)
@@ -33,11 +33,11 @@ int unlock(int addr){
 	int i = 0;
 	int found = 0;
 
-	while(i<256 || found == 0){ 
-		if(tabVarTmp[i].address == addr){
+	for(i = 0; i < 256; i++) {
+		if(tabVarTmp[i].address == addr) {
 			found = 1;
+			break;
 		}
-		i++;
 	}
 
 	if(found)

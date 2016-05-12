@@ -34,17 +34,17 @@ struct tabSymb * tab;
 struct chmpSymb buildEntry(char * n, int d, int i, int c);
 
 // Ajoute la structure elem à la liste tab
-void addEntry(struct chmpSymb elem);
+int addEntry(struct chmpSymb elem);
 
 // Peut être retourner un int pour savoir si la pile était déjà vide au départ
 //Supprime le dernier élément de la liste tab
-void supprEntry();
+int supprEntry();
 
 //Trouve une entrée dans la table des symboles par son nom
 struct chmpSymb * findEntry(char * n);
 
 //Supprimer les variables de la profondeur depth
-void supprByDepth(int depth);
+int supprByDepth(int depth);
 
 
 

@@ -1,5 +1,10 @@
 #include "tabLabel.h"
 
+void init_label()
+{
+	label = 0;
+}
+
 // Retourne le numéro du label
 int new_label()
 {

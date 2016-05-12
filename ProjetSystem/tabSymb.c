@@ -2,11 +2,11 @@
 
 // Construit une ligne de la table des symboles
 struct chmpSymb buildEntry(char * n, int d, int i, int c){
-		if (i < 0 || i > 1) {
-		 printf("erreur-buildEntry(%s,%d,%d,&d)-Init inconnu\n",
-		 n, d , i, c);
-		 return NULL ; 
-	}
+	/*if (i < 0 || i > 1) {
+		printf("erreur-buildEntry(%s,%d,%d,&d)-Init inconnu\n",
+		n, d , i, c);
+		return NULL ; 
+	}*/
 	struct chmpSymb * entry = malloc(sizeof(struct chmpSymb));
 	entry->name = malloc(strlen(n)*sizeof(char));
 	strcpy(entry->name, n);
@@ -72,13 +72,14 @@ int supprEntry(){
 struct chmpSymb * findEntry(char * n){
 	struct cellTabSymb * courant;
 	courant = tab->head;
-
-	if(tab->head == NULL){
-		return NULL;
+	if(courant == NULL){
+		printf("Champ %s inexistant dans la table des saints bols (vide).\n", n);
+		exit(1);
 	}
 	else
 	{
-		while(strcmp(courant->elem.name, n) != 0 || courant != tab->tail){
+		while(strcmp(courant->elem.name, n) != 0 && courant != tab->tail){
+			printf("AFFICHER CHAMP %s\n", courant->elem.name);
 			courant = courant->next;
 		}
 		return &(courant->elem);
@@ -99,7 +100,7 @@ int supprByDepth(int depth)
 			ret = supprEntry();
 			if (ret == -1){
 				printf("Err supprByDepth - supprEntry\n");
-				return -1
+				return -1;
 			}
 
 		}
