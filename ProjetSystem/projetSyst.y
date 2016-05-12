@@ -54,13 +54,7 @@ FILE * fasm ;
 /*****************************/
 
 /* Organisation générale  : déclaration_des_fonctions main () { Corps } */
-Input: Functions Main
-
-Functions: DefFonc Functions
-	| ;
-
-Main: tINT tMAIN tPO tPF tAO Body tAF
-//Input : DefFonc FType tMAIN tPO tPF tAO Body tAF // TODO : faire main(){}
+Input : DefFonc tMAIN tPO tPF tAO Body tAF // TODO : faire main(){}
 
 /*Full Type*/
 FType: tVOID | tINT
@@ -263,7 +257,7 @@ BlocWhile:
 
 // Partie Fonction : DeclFonc et CorpsFonc et appel de fonction
 // Définition des fonctions :
-DefFonc: FType tID tPO Args tPF tAO Body tAF //DefFonc
+DefFonc: FType tID tPO Args tPF tAO Body tAF DefFonc
 	| ;
 
 Args: tID SuiteArgs

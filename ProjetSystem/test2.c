@@ -2,7 +2,7 @@ int f()
 {
 }
 
-int main()
+main()
 {
 		int a;
 		int b;
