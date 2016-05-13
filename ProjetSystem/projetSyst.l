@@ -40,6 +40,7 @@ NB [0-9]+
 
 "if" {printf("if\n"); return tIF;}
 "else" {printf("else\n"); return tELSE;}
+"elseif" {printf("elseif\n"); return tELSEIF;}
 "while" {printf("while\n"); return tWHILE;}
 
 [a-zA-Z]+ { yylval.varc = strdup(yytext); printf("id : %s\n", yylval.varc); return tID;}

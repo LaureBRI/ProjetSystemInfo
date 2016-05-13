@@ -27,19 +27,24 @@ FILE * fasm ;
 %union {int varnb; float varnbe; char * varc; 
 		struct typeWhile{int to; int from;} typeWhile;
 		}
+
 %token <varnb> tNB
 %token <varc> tID
 %token <varnbe> tNBE
 %token <varnb> tIF 
 %token <varnb> tPO
 %token <varnb> tPF
-%token <typeWhile> tWHILE
+//%token <typeWhile> tWHILE
+%token <varnb> tWHILE
 %token tMAIN tAO tAF 
-%token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tINFEG tSUP tSUPEG tOR tAND
+%token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tELSEIF tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tINFEG tSUP tSUPEG tOR tAND
 /*Typage des non terminaux */
 %type <varnb> Maths
 %type <varnb> Val 
 %type <varnb> Cond
+//%type <varnb> SuiteIF
+//%type <varnb> SuiteELSEIF
+//%type <varnb> ELSE
 
 /*Spécification de priorité pour les opérateurs arithmétiques*/
 %left tMULT tDIV tMOD 
@@ -159,6 +164,20 @@ Maths: Val
 		unlock($3); 
 		$$ = $1;
 	}
+	| Maths tSUP Maths 
+	{
+		fprintf(fasm, "SUP %d %d %d\n", $1, $1, $3); 
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
+	| Maths tMOD Maths 
+	{
+		fprintf(fasm, "MOD %d %d %d\n", $1, $1, $3); 
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
 	// pointeurs
 	// Maths retourne add temps, on va déréférencer ce qui est déjà dans une add temp, pas la peine d'en refaire une
 	| tMULT Maths 
@@ -217,10 +236,9 @@ Printf:
 		fprintf (fasm,"PRI %d\n", $3);
 	 	pc++; 
 	}	
-		
-/* IF : deux cas : if ou if else */ 	
+
+/* IF : if(){}else{}*/		
 BlocIF: 
-	/* ------------ IF + ELSE -------------- */
 	tIF tPO Cond  
 	{
 		int l = new_label();
@@ -229,8 +247,13 @@ BlocIF:
 		pc++;
 	}
 	tPF
-	tAO Body tAF
+	tAO
 	{
+		depth++;
+	}
+	Body tAF
+	{
+		depth--;
 		int l1 = new_label();
 		$2 = l1;
 	   	fprintf (fasm, "JMP %d\n", $2); 
@@ -238,34 +261,21 @@ BlocIF:
 	}
 	tELSE tAO
 	{
+		depth++;
 		set_label($1, pc);
 	}
 	Body tAF
 	{
+		depth--;
 		set_label($2, pc);
 	}
-	/* ------------ IF -------------- */
-	| tIF tPO Cond  
-	{
-		int l = new_label();
-		$1 = l;
-		fprintf (fasm, "JMF %d %d\n", $3, l); 
-		pc++;
-	}
-	tPF
-	tAO Body tAF
-	{
-		set_label($1,pc);
-	}
 
+/* Les conditions */
 Cond:
 	Maths
-	{
-
-	} 
 	| Maths tEQ Maths
 	{
-		// TODO
+		fprintf (fasm, "EQU %d %d %d\n", $1, $1, $3); 
 	}
 	| ;
 
@@ -273,13 +283,15 @@ Cond:
 BlocWhile: 
 	tWHILE tPO Cond tPF
 	{
-		$1.to = pc ;	// l'offset a déjà été incrémenté par l'ajout du label
-		fprintf (fasm, "JMF %d \n", $3);				
+		int l = new_label();
+		$2 = l;
+		fprintf (fasm, "JMF %d %d\n", $3, l);				
 		pc++;
 	}
-	tAO PInsts tAF
-	{		     	
-    	fprintf (fasm, "JMP %d \n", $1.to); 
+	tAO Body tAF
+	{
+    	fprintf (fasm, "JMP %d \n", $1); 
+    	set_label($2, pc);
     	pc++;
     }
 

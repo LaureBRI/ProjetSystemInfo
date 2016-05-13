@@ -1,19 +1,33 @@
-int main (){
+int f()
+{
 	int a;
-	1+2;
-	a=1;
-	a=a+b;
-	b=1+2;
+	int b;
 
-	func(toto, 345, arg);
-	if(1==4)
-	{
-		toto=543;
-	}
-	while(1)
-	{
-		toto=i+1;
-	}
+	a = 2+3;
+	b = 0+5;
 }
 
+main()
+{
+	int a;
+	int * b;
 
+	a=*b;
+	a = 2+3;
+	b = 0+5;
+	*c=2;
+
+	if(a==1)
+	{
+		int a;
+	}
+	else
+	{
+		int b;
+		b=a;
+		while()
+		{
+			b = 0+5;
+		}
+	}
+}

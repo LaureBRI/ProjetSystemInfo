@@ -56,21 +56,22 @@
      tPRINT = 272,
      tCONST = 273,
      tELSE = 274,
-     tSEMI = 275,
-     tCOMA = 276,
-     tADD = 277,
-     tSUB = 278,
-     tMULT = 279,
-     tDIV = 280,
-     tMOD = 281,
-     tAFFECT = 282,
-     tEQ = 283,
-     tINF = 284,
-     tINFEG = 285,
-     tSUP = 286,
-     tSUPEG = 287,
-     tOR = 288,
-     tAND = 289
+     tELSEIF = 275,
+     tSEMI = 276,
+     tCOMA = 277,
+     tADD = 278,
+     tSUB = 279,
+     tMULT = 280,
+     tDIV = 281,
+     tMOD = 282,
+     tAFFECT = 283,
+     tEQ = 284,
+     tINF = 285,
+     tINFEG = 286,
+     tSUP = 287,
+     tSUPEG = 288,
+     tOR = 289,
+     tAND = 290
    };
 #endif
 /* Tokens.  */
@@ -91,21 +92,22 @@
 #define tPRINT 272
 #define tCONST 273
 #define tELSE 274
-#define tSEMI 275
-#define tCOMA 276
-#define tADD 277
-#define tSUB 278
-#define tMULT 279
-#define tDIV 280
-#define tMOD 281
-#define tAFFECT 282
-#define tEQ 283
-#define tINF 284
-#define tINFEG 285
-#define tSUP 286
-#define tSUPEG 287
-#define tOR 288
-#define tAND 289
+#define tELSEIF 275
+#define tSEMI 276
+#define tCOMA 277
+#define tADD 278
+#define tSUB 279
+#define tMULT 280
+#define tDIV 281
+#define tMOD 282
+#define tAFFECT 283
+#define tEQ 284
+#define tINF 285
+#define tINFEG 286
+#define tSUP 287
+#define tSUPEG 288
+#define tOR 289
+#define tAND 290
 
 
 
@@ -117,7 +119,7 @@ typedef union YYSTYPE
 		struct typeWhile{int to; int from;} typeWhile;
 		}
 /* Line 1529 of yacc.c.  */
-#line 121 "y.tab.h"
+#line 123 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
