@@ -37,7 +37,7 @@ FILE * fasm ;
 /*Typage des non terminaux */
 %type <varnb> Maths
 %type <varnb> Val 
-//%type <varnb> Cond
+%type <varnb> Cond
 
 /*Spécification de priorité pour les opérateurs arithmétiques*/
 %left tMULT tDIV tMOD 
@@ -75,11 +75,13 @@ Decl:
 	}
 	| tCONST tINT tID tSEMI
 	{
-		//TODO
+		struct chmpSymb nouv = buildEntry($3, depth, 0, 1);
+		addEntry(nouv);
 	}
 	| tINT tMULT tID tSEMI
 	{
-		//TODO
+		struct chmpSymb nouv = buildEntry($3, depth, 0, 0);
+		addEntry(nouv);
 	}
 	| tINT tID tAFFECT Maths tSEMI
 	{
@@ -113,8 +115,7 @@ Structure: Inst tSEMI
 	| BlocWhile
 
 /* une instruction est soit une expression, soit une affectation soit un printf */ 
-Inst: Maths 
-	| Affect
+Inst:  Affect
 	| Printf
 
 /* une expression mathématique est TODO*/
@@ -148,7 +149,13 @@ Maths: Val
 		unlock($3); 
 		$$ = $1;
 	}
-	| Maths tMOD Maths
+	| Maths tINF Maths 
+	{
+		fprintf(fasm, "INF %d %d %d\n", $1, $1, $3); 
+		pc++; 
+		unlock($3); 
+		$$ = $1;
+	}
 	// pointeurs
 	// Maths retourne add temps, on va déréférencer ce qui est déjà dans une add temp, pas la peine d'en refaire une
 	| tMULT Maths 
@@ -195,7 +202,8 @@ Affect:
 	}
 	| tMULT tID tAFFECT Maths  
 	{ 
-		// TODO
+		fprintf(fasm, "COPB %d %d \n", $2, $4);
+		pc++;
 	}
 
 /* affichage : printf ( Exp ) */ 
@@ -209,7 +217,7 @@ Printf:
 /* IF : deux cas : if ou if else */ 	
 BlocIF: 
 	/* ------------ IF + ELSE -------------- */
-	tIF tPO Maths tPF 
+	tIF tPO Cond tPF 
 	{
 		fprintf (fasm, "JMF %d \n", $3); 
 		pc++;
@@ -228,9 +236,10 @@ BlocIF:
 	}
 	PInsts tAF 
 	/* ------------ IF -------------- */
-	| tIF tPO Maths tPF 
+	| tIF tPO Cond tPF 
 	{
-		fprintf (fasm, "JMF %d \n", $3); 
+		fprintf (fasm, "JMF %d \n", $3);
+		pc++;
 	}
 	tAO PInsts tAF
     {
@@ -238,15 +247,26 @@ BlocIF:
     }
 	; 
 
+Cond:
+	Maths
+	{
+
+	} 
+	| Maths tEQ Maths
+	{
+		// TODO
+	}
+	| ;
+
 /* Bloc WHILE : while ( expression ) { instructions } */
 BlocWhile: 
 	tWHILE tPO 
 	{
 		$1.to = pc ; // l'offset a déjà été incrémenté par l'ajout du label
 	} 
-	Maths tPF
+	Cond tPF
 	{
-		fprintf (fasm, "JMF %d \n", $4);				
+		fprintf (fasm, "JMF %d \n", $3);				
 		pc++;
 	}
 	tAO PInsts tAF
@@ -270,7 +290,7 @@ SuiteArgs: tCOMA tID SuiteArgs
 	| tCOMA tID
 
 //appel de  fonction f(a); --> table des fonctions
-Fonction: tID tPO Args tPF tSEMI
+//Fonction: tID tPO Args tPF tSEMI
 
 
 
