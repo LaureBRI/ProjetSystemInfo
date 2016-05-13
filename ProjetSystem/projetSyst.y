@@ -31,8 +31,10 @@ FILE * fasm ;
 %token <varc> tID
 %token <varnbe> tNBE
 %token <varnb> tIF 
+%token <varnb> tPO
+%token <varnb> tPF
 %token <typeWhile> tWHILE
-%token tMAIN tPO tPF tAO tAF 
+%token tMAIN tAO tAF 
 %token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tINFEG tSUP tSUPEG tOR tAND
 /*Typage des non terminaux */
 %type <varnb> Maths
@@ -73,7 +75,7 @@ Decl:
 		struct chmpSymb nouv = buildEntry($2, depth, 0, 0); 
 		addEntry(nouv);
 	}
-	| tCONST tINT tID tSEMI
+	| tCONST tINT tID tAFFECT Maths tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($3, depth, 0, 1);
 		addEntry(nouv);
@@ -85,7 +87,8 @@ Decl:
 	}
 	| tINT tID tAFFECT Maths tSEMI
 	{
-		//TODO
+		struct chmpSymb nouv = buildEntry($2, depth, 1, 0);
+		addEntry(nouv);
 	}
 	| tINT tID 
 	{
@@ -182,27 +185,28 @@ Val:
 		$$ = nbe;
 	}*/
 	| tID /*Regarder dans la table des symboles*/ 
-	{ 
-		int n = lock(); 
-		struct chmpSymb * c = findEntry($1); 
+	{
+		int n = lock();
+		struct chmpSymb * c = findEntry($1);
 		fprintf(fasm, "COP %d %d\n", n, c->address);
-		pc++; 
+		pc++;
 		$$ = n;
 	}
 
 /* une affectation est un identifiant = une expression */
-Affect: 
-	tID tAFFECT Maths 
-	{ 
-		struct chmpSymb * c = findEntry($1); 
-		fprintf(fasm, "COP %d %d\n", c->address, $3); 
-		pc++; 
-		c->init = 1; 
-		unlock($3); 
+Affect:
+	tID tAFFECT Maths
+	{
+		struct chmpSymb * c = findEntry($1);
+		fprintf(fasm, "COP %d %d\n", c->address, $3);
+		pc++;
+		c->init = 1;
+		unlock($3);
 	}
 	| tMULT tID tAFFECT Maths  
-	{ 
-		fprintf(fasm, "COPB %d %d \n", $2, $4);
+	{
+		struct chmpSymb * c = findEntry($2);
+		fprintf(fasm, "COPB %d %d \n", c->address, $4);
 		pc++;
 	}
 
@@ -217,35 +221,42 @@ Printf:
 /* IF : deux cas : if ou if else */ 	
 BlocIF: 
 	/* ------------ IF + ELSE -------------- */
-	tIF tPO Cond tPF 
+	tIF tPO Cond  
 	{
-		fprintf (fasm, "JMF %d \n", $3); 
+		int l = new_label();
+		$1 = l;
+		fprintf (fasm, "JMF %d %d\n", $3, l); 
 		pc++;
 	}
-	tAO PInsts tAF
+	tPF
+	tAO Body tAF
 	{
-		
-	    // saut à la fin du else  => adresse encore inconnue : ajout table symbole
-
-	   	fprintf (fasm, "JMP \n"); 
+		int l1 = new_label();
+		$2 = l1;
+	   	fprintf (fasm, "JMP %d\n", $2); 
 	    pc++;
 	}
 	tELSE tAO
-	{  
-	 	
-	}
-	PInsts tAF 
-	/* ------------ IF -------------- */
-	| tIF tPO Cond tPF 
 	{
-		fprintf (fasm, "JMF %d \n", $3);
+		set_label($1, pc);
+	}
+	Body tAF
+	{
+		set_label($2, pc);
+	}
+	/* ------------ IF -------------- */
+	| tIF tPO Cond  
+	{
+		int l = new_label();
+		$1 = l;
+		fprintf (fasm, "JMF %d %d\n", $3, l); 
 		pc++;
 	}
-	tAO PInsts tAF
-    {
-
-    }
-	; 
+	tPF
+	tAO Body tAF
+	{
+		set_label($1,pc);
+	}
 
 Cond:
 	Maths
@@ -260,18 +271,15 @@ Cond:
 
 /* Bloc WHILE : while ( expression ) { instructions } */
 BlocWhile: 
-	tWHILE tPO 
+	tWHILE tPO Cond tPF
 	{
-		$1.to = pc ; // l'offset a déjà été incrémenté par l'ajout du label
-	} 
-	Cond tPF
-	{
+		$1.to = pc ;	// l'offset a déjà été incrémenté par l'ajout du label
 		fprintf (fasm, "JMF %d \n", $3);				
 		pc++;
 	}
 	tAO PInsts tAF
 	{		     	
-    	fprintf (fasm, "JMP %d \n", $1); 
+    	fprintf (fasm, "JMP %d \n", $1.to); 
     	pc++;
     }
 

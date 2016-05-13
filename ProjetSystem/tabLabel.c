@@ -9,6 +9,7 @@ void init_label()
 int new_label()
 {
 	tabLab[label][0] = label;
+	tabLab[label][1] = -1;
 	label ++;
 	return tabLab[label][0];
 }

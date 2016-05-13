@@ -43,10 +43,10 @@
      tID = 259,
      tNBE = 260,
      tIF = 261,
-     tWHILE = 262,
-     tMAIN = 263,
-     tPO = 264,
-     tPF = 265,
+     tPO = 262,
+     tPF = 263,
+     tWHILE = 264,
+     tMAIN = 265,
      tAO = 266,
      tAF = 267,
      tINT = 268,
@@ -78,10 +78,10 @@
 #define tID 259
 #define tNBE 260
 #define tIF 261
-#define tWHILE 262
-#define tMAIN 263
-#define tPO 264
-#define tPF 265
+#define tPO 262
+#define tPF 263
+#define tWHILE 264
+#define tMAIN 265
 #define tAO 266
 #define tAF 267
 #define tINT 268
