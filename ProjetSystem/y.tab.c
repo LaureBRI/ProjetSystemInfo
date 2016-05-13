@@ -517,8 +517,8 @@ static const yytype_uint16 yyrline[] =
       88,    93,    99,    98,   106,   105,   110,   117,   118,   121,
      122,   123,   126,   127,   130,   131,   132,   139,   146,   153,
      160,   167,   174,   183,   192,   206,   217,   225,   234,   243,
-     251,   255,   263,   242,   275,   279,   283,   288,   287,   303,
-     304,   306,   307,   308,   310,   311,   312,   313
+     251,   255,   263,   242,   275,   276,   280,   285,   284,   300,
+     301,   303,   304,   305,   307,   308,   309,   310
 };
 #endif
 
@@ -1729,22 +1729,15 @@ yyreduce:
 	}
     break;
 
-  case 44:
-#line 276 "projetSyst.y"
-    {
-		//TODO
-	}
-    break;
-
   case 45:
-#line 280 "projetSyst.y"
+#line 277 "projetSyst.y"
     {
-		// TODO
+		fprintf (fasm, "EQU %d %d %d\n", (yyvsp[(1) - (3)].varnb), (yyvsp[(1) - (3)].varnb), (yyvsp[(3) - (3)].varnb)); 
 	}
     break;
 
   case 47:
-#line 288 "projetSyst.y"
+#line 285 "projetSyst.y"
     {
 		int l = new_label();
 		(yyvsp[(2) - (4)].varnb) = l;
@@ -1754,7 +1747,7 @@ yyreduce:
     break;
 
   case 48:
-#line 295 "projetSyst.y"
+#line 292 "projetSyst.y"
     {
     	fprintf (fasm, "JMP %d \n", (yyvsp[(1) - (8)].varnb)); 
     	set_label((yyvsp[(2) - (8)].varnb), pc);
@@ -1764,7 +1757,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1768 "y.tab.c"
+#line 1761 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1978,7 +1971,7 @@ yyreturn:
 }
 
 
-#line 320 "projetSyst.y"
+#line 317 "projetSyst.y"
 
 extern int yylineno;
 /* Fonction de gestion des erreurs */ 

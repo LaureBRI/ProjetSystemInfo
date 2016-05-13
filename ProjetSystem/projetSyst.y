@@ -227,6 +227,8 @@ Affect:
 		struct chmpSymb * c = findEntry($2);
 		fprintf(fasm, "COPB %d %d \n", c->address, $4);
 		pc++;
+		c->init = 1;
+		unlock($4);
 	}
 
 /* affichage : printf ( Exp ) */ 

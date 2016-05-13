@@ -8,6 +8,8 @@
 
 NB [0-9]+ 
 
+COM    ("/*"([^*]|\*+[^*/])*\*+"/")|("//".*)
+
 %%
 [ \t]+ {printf(" \n");}
 "(" {printf("(\n"); return tPO;}
@@ -46,6 +48,6 @@ NB [0-9]+
 [a-zA-Z]+ { yylval.varc = strdup(yytext); printf("id : %s\n", yylval.varc); return tID;}
 {NB} { yylval.varnb = atoi(yytext); printf("nb : %d\n", yylval.varnb); return tNB;}
 {NB}e[+|-]?{NB} { yylval.varnbe = atof(yytext); printf("nb : %f\n", yylval.varnbe); return tNBE;}
-
+{COM} {yylval.varc = strdup(yytext); printf("comm : %s\n", yylval.varc);}
 %%
 

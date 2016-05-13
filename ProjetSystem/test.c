@@ -9,23 +9,25 @@ int f()
 
 main()
 {
-	int a;
-	int * b;
-
-	a=*b;
-	a = 2+3;
-	b = 0+5;
-	*c=2;
-
-	if(a==1)
+	int c;
+	int * d;
+//un commentaire
+	e=*f;
+	g = 2+3;
+	h = 0+5;
+	*i=2;
+/*
+un deuxième commentaire
+*/
+	if(j==1)
 	{
-		int a;
+		int k;
 	}
 	else
 	{
-		int b;
+		int l;
 		b=a;
-		while()
+		while(a<2)
 		{
 			b = 0+5;
 		}
