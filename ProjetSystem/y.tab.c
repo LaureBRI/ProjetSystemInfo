@@ -516,9 +516,9 @@ static const yytype_uint16 yyrline[] =
        0,    64,    64,    67,    67,    70,    73,    74,    78,    83,
       88,    93,    99,    98,   106,   105,   110,   117,   118,   121,
      122,   123,   126,   127,   130,   131,   132,   139,   146,   153,
-     160,   167,   174,   183,   192,   206,   217,   225,   234,   243,
-     251,   255,   263,   242,   275,   276,   280,   285,   284,   300,
-     301,   303,   304,   305,   307,   308,   309,   310
+     160,   167,   174,   183,   192,   206,   217,   225,   236,   245,
+     253,   257,   265,   244,   277,   278,   282,   287,   286,   302,
+     303,   305,   306,   307,   309,   310,   311,   312
 };
 #endif
 
@@ -1674,11 +1674,13 @@ yyreduce:
 		struct chmpSymb * c = findEntry((yyvsp[(2) - (4)].varc));
 		fprintf(fasm, "COPB %d %d \n", c->address, (yyvsp[(4) - (4)].varnb));
 		pc++;
+		c->init = 1;
+		unlock((yyvsp[(4) - (4)].varnb));
 	}
     break;
 
   case 38:
-#line 235 "projetSyst.y"
+#line 237 "projetSyst.y"
     {
 		fprintf (fasm,"PRI %d\n", (yyvsp[(3) - (4)].varnb));
 	 	pc++; 
@@ -1686,7 +1688,7 @@ yyreduce:
     break;
 
   case 39:
-#line 243 "projetSyst.y"
+#line 245 "projetSyst.y"
     {
 		int l = new_label();
 		(yyvsp[(1) - (3)].varnb) = l;
@@ -1696,14 +1698,14 @@ yyreduce:
     break;
 
   case 40:
-#line 251 "projetSyst.y"
+#line 253 "projetSyst.y"
     {
 		depth++;
 	}
     break;
 
   case 41:
-#line 255 "projetSyst.y"
+#line 257 "projetSyst.y"
     {
 		depth--;
 		int l1 = new_label();
@@ -1714,7 +1716,7 @@ yyreduce:
     break;
 
   case 42:
-#line 263 "projetSyst.y"
+#line 265 "projetSyst.y"
     {
 		depth++;
 		set_label((yyvsp[(1) - (12)].varnb), pc);
@@ -1722,7 +1724,7 @@ yyreduce:
     break;
 
   case 43:
-#line 268 "projetSyst.y"
+#line 270 "projetSyst.y"
     {
 		depth--;
 		set_label((yyvsp[(2) - (15)].varnb), pc);
@@ -1730,14 +1732,14 @@ yyreduce:
     break;
 
   case 45:
-#line 277 "projetSyst.y"
+#line 279 "projetSyst.y"
     {
 		fprintf (fasm, "EQU %d %d %d\n", (yyvsp[(1) - (3)].varnb), (yyvsp[(1) - (3)].varnb), (yyvsp[(3) - (3)].varnb)); 
 	}
     break;
 
   case 47:
-#line 285 "projetSyst.y"
+#line 287 "projetSyst.y"
     {
 		int l = new_label();
 		(yyvsp[(2) - (4)].varnb) = l;
@@ -1747,7 +1749,7 @@ yyreduce:
     break;
 
   case 48:
-#line 292 "projetSyst.y"
+#line 294 "projetSyst.y"
     {
     	fprintf (fasm, "JMP %d \n", (yyvsp[(1) - (8)].varnb)); 
     	set_label((yyvsp[(2) - (8)].varnb), pc);
@@ -1757,7 +1759,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1761 "y.tab.c"
+#line 1763 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1971,7 +1973,7 @@ yyreturn:
 }
 
 
-#line 317 "projetSyst.y"
+#line 319 "projetSyst.y"
 
 extern int yylineno;
 /* Fonction de gestion des erreurs */ 

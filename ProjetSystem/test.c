@@ -9,13 +9,16 @@ int f()
 
 main()
 {
-	int c;
+	int c=2;
+	const int b = 4;
 	int * d;
 //un commentaire
 	e=*f;
 	g = 2+3;
 	h = 0+5;
 	*i=2;
+
+	printf( 3+2 );
 /*
 un deuxième commentaire
 */
