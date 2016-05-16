@@ -336,6 +336,7 @@ BlocIF:
 	}
 	Body tAF
 	{
+		supprByDepth(depth);
 		depth--;
 		int l1 = new_label();
 		$2 = l1;
@@ -349,6 +350,7 @@ BlocIF:
 	}
 	Body tAF
 	{
+		supprByDepth(depth);
 		depth--;
 		set_label($2, pc);
 	}
@@ -371,8 +373,14 @@ BlocWhile:
 		fprintf (fasm, "JMF %d %d\n", $3, l);				
 		pc++;
 	}
-	tAO Body tAF
+	tAO 
 	{
+		depth++;
+	}
+	Body tAF
+	{
+		supprByDepth(depth);
+		depth--;
     	fprintf (fasm, "JMP %d \n", $1); 
     	set_label($2, pc);
     	pc++;
