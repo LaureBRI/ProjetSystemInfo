@@ -18,7 +18,7 @@ main()
 	g = 2+3;
 	h = 0+5;
 	*i=2;
-
+	c = a < b;
 	printf( 3+2 );
 /*
 un deuxième commentaire
