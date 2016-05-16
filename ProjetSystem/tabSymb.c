@@ -73,8 +73,8 @@ struct chmpSymb * findEntry(char * n){
 	struct cellTabSymb * courant;
 	courant = tab->head;
 	if(courant == NULL){
-		printf("Champ %s inexistant dans la table des saints bols (vide).\n", n);
-		exit(1);
+		printf("Champ %s inexistant dans la table des symboles (vide).\n", n);
+		return NULL;
 	}
 	else
 	{
