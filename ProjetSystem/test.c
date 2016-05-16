@@ -11,6 +11,7 @@ main()
 {
 	int c=2;
 	const int b = 4;
+	int c;
 	int * d;
 //un commentaire
 	e=*f;
