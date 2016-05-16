@@ -6,10 +6,6 @@
 #include "tabLabel.h"
 
 
-// ************** TODO *****************
-	// Changer asmOFF
-	// Ajouter "Fonction" où l'on peut faire des appels de fonctions
-
 
 void yyerror(char *s);
 
@@ -37,7 +33,7 @@ FILE * fasm ;
 //%token <typeWhile> tWHILE
 %token <varnb> tWHILE
 %token tMAIN tAO tAF 
-%token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tELSEIF tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tINFEG tSUP tSUPEG tOR tAND
+%token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tELSEIF tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tSUP tOR tAND
 /*Typage des non terminaux */
 %type <varnb> Maths
 %type <varnb> Val 
@@ -73,44 +69,102 @@ Body: PDeclars PInsts
 PDeclars: Decl PDeclars
 	| ;
 
-/* variables déclarées  : [int id] ou [int id, id2, id3] ou [const int id] ou [int id = exp] ou [int * id] */  
+/* variables déclarées  : [int id] ou [int id, id2, id3] ou [const int id = exp] ou [int id = exp] ou [int * id] */  
 Decl: 
 	tINT tID tSEMI 
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 0, 0); 
-		addEntry(nouv);
+		// Vérification que la variable n'existe pas déjà
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		}
+		
 	}
 	| tCONST tINT tID tAFFECT Maths tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($3, depth, 0, 1);
-		addEntry(nouv);
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		}
 	}
 	| tINT tMULT tID tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($3, depth, 0, 0);
-		addEntry(nouv);
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		}
 	}
 	| tINT tID tAFFECT Maths tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 1, 0);
-		addEntry(nouv);
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		}
 	}
 	| tINT tID 
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 0, 0);
-		addEntry(nouv); 
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		} 
 	} tCOMA SuiteDecl
 
 SuiteDecl: 
 	tID 
 	{
 		struct chmpSymb nouv = buildEntry($1, depth, 0, 0);
-		addEntry(nouv);
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		}
 	} tCOMA SuiteDecl
 	| tID tSEMI 
 	{
 		struct chmpSymb nouv = buildEntry($1, depth, 0, 0);
-		addEntry(nouv);
+		if(findEntry(nouv)==NULL)
+		{
+			if(addEntry(nouv)==-1)
+				yyerror("Ajout Table symbole\n");
+		}
+		else
+		{
+			yyerror("Variable déjà déclarée\n");
+		}
 	}
 
 /* Partie Instructions : liste de Stucture d'instruction ou vide */ 
@@ -133,49 +187,60 @@ Maths: Val
 	{
 		fprintf(fasm, "ADD %d %d %d\n", $1, $1, $3);
 		pc++; 
-		unlock($3); 
+		if (unlock($3) == -1)
+		{
+			yyerror("Erreur libération variable temporaire\n");
+		}  
 		$$ = $1;
 	}
 	| Maths tSUB Maths 
 	{
 		fprintf(fasm, "SOU %d %d %d\n", $1, $1, $3); 
 		pc++; 
-		unlock($3); 
+		if (unlock($3) == -1)
+		{
+			yyerror("Erreur libération variable temporaire\n");
+		} 
 		$$ = $1;
 	}
 	| Maths tMULT Maths 
 	{
 		fprintf(fasm, "MUL %d %d %d\n", $1, $1, $3);
 		pc++; 
-		unlock($3); 
+		if (unlock($3) == -1)
+		{
+			yyerror("Erreur libération variable temporaire\n");
+		}  
 		$$ = $1;
 	}
 	| Maths tDIV Maths
 	{
 		fprintf(fasm, "DIV %d %d %d\n", $1, $1, $3); 
 		pc++; 
-		unlock($3); 
+		if (unlock($3) == -1)
+		{
+			yyerror("Erreur libération variable temporaire\n");
+		} 
 		$$ = $1;
 	}
 	| Maths tINF Maths 
 	{
 		fprintf(fasm, "INF %d %d %d\n", $1, $1, $3); 
 		pc++; 
-		unlock($3); 
+		if (unlock($3) == -1)
+		{
+			yyerror("Erreur libération variable temporaire\n");
+		}  
 		$$ = $1;
 	}
 	| Maths tSUP Maths 
 	{
 		fprintf(fasm, "SUP %d %d %d\n", $1, $1, $3); 
 		pc++; 
-		unlock($3); 
-		$$ = $1;
-	}
-	| Maths tMOD Maths 
-	{
-		fprintf(fasm, "MOD %d %d %d\n", $1, $1, $3); 
-		pc++; 
-		unlock($3); 
+		if (unlock($3) == -1)
+		{
+			yyerror("Erreur libération variable temporaire\n");
+		} 
 		$$ = $1;
 	}
 	// pointeurs
@@ -196,20 +261,20 @@ Val:
 		pc++;
 		$$ = n;
 	}
-	// TODO
-	/*| tNBE 
-	{
-		float * nbe = malloc(sizeof(float));
-		*nbe = $1;
-		$$ = nbe;
-	}*/
 	| tID /*Regarder dans la table des symboles*/ 
 	{
 		int n = lock();
 		struct chmpSymb * c = findEntry($1);
-		fprintf(fasm, "COP %d %d\n", n, c->address);
-		pc++;
-		$$ = n;
+		if(c != NULL)
+		{	
+			fprintf(fasm, "COP %d %d\n", n, c->address);
+			pc++;
+			$$ = n;
+		}
+		else
+		{
+			yyerror("Variable non déclarée\n");
+		}
 	}
 
 /* une affectation est un identifiant = une expression */
@@ -217,18 +282,34 @@ Affect:
 	tID tAFFECT Maths
 	{
 		struct chmpSymb * c = findEntry($1);
-		fprintf(fasm, "COP %d %d\n", c->address, $3);
-		pc++;
-		c->init = 1;
-		unlock($3);
+		if(c != NULL)
+		{	
+			fprintf(fasm, "COP %d %d\n", c->address, $3);
+			pc++;
+			c->init = 1;
+			unlock($3);
+		}
+		else
+		{
+			yyerror("Variable non déclarée\n");
+		}
 	}
 	| tMULT tID tAFFECT Maths  
 	{
 		struct chmpSymb * c = findEntry($2);
-		fprintf(fasm, "COPB %d %d \n", c->address, $4);
-		pc++;
-		c->init = 1;
-		unlock($4);
+		if(c != NULL)
+		{	
+			
+			fprintf(fasm, "COPB %d %d \n", c->address, $4);
+			pc++;
+			c->init = 1;
+			unlock($4);
+		}
+		else
+		{
+			yyerror("Variable non déclarée\n");
+		}
+
 	}
 
 /* affichage : printf ( Exp ) */ 
