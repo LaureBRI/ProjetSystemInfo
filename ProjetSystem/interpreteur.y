@@ -166,10 +166,10 @@ int main(void) {
 				i-- ;
 				break ;
 			case iCOPA :
-				mem[inss[i].a] = mem[inss[i].b] ;
+				mem[inss[i].a] = mem[mem[inss[i].b]] ;
 				break;
 			case iCOPB :
-				mem[inss[i].a] = inss[i].b;
+				mem[mem[inss[i].a]] = mem[inss[i].b];
 				break;
 
 		}
