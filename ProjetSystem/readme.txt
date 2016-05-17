@@ -1,1 +1,0 @@
-/!\ Vérifier les capacités de multiplication de notre compilateur (signal sur 18 sur lequel on ne prend que les 8 premiers).

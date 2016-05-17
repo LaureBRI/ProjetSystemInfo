@@ -1,7 +1,7 @@
 all : projetSyst2
 
 projetSyst2 : y.tab.c lex.yy.c
-	gcc -Wall y.tab.c lex.yy.c tabSymb.c varTemp.c tabLabel.c -ll -o projetSyst
+	gcc -g -Wall y.tab.c lex.yy.c tabSymb.c varTemp.c tabLabel.c -ll -o projetSyst
 
 y.tab.c : projetSyst.y 
 	yacc -d -v projetSyst.y

@@ -20,7 +20,7 @@ int lock(){
 		//affectation
 		tabVarTmp[i].locked = 1;
 		// adresse du haut de la table des symboles + i + 1
-		tabVarTmp[i].address = tab->tail->elem.address + 1 + i ;
+		tabVarTmp[i].address = getTab()->head->elem.address + 1 + i ;
 	}
 	
 	return tabVarTmp[i].address;

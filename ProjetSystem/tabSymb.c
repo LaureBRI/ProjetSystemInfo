@@ -1,19 +1,14 @@
 #include "tabSymb.h"
 
+struct tabSymb * tab;
+
+
 // Construit une ligne de la table des symboles
 struct chmpSymb buildEntry(char * n, int d, int i, int c){
-	/*if (i < 0 || i > 1) {
-		printf("erreur-buildEntry(%s,%d,%d,&d)-Init inconnu\n",
-		n, d , i, c);
-		return NULL ; 
-	}*/
 	struct chmpSymb * entry = malloc(sizeof(struct chmpSymb));
 	entry->name = malloc(strlen(n)*sizeof(char));
 	strcpy(entry->name, n);
-	//strncpy(entry->name, n, strlen(n));
-	//Pas besoin de faire strNcpy parce qu'on alloue juste la taille de n
 	entry->depth = d;
-	//-1 = pas encore initialisée
 	entry->address = -1;
 	entry->init = i;
 	entry->cte = c;
@@ -68,8 +63,14 @@ int supprEntry(){
 	return 0;
 }
 
+struct tabSymb * getTab()
+{
+	return tab;
+}
 //Trouve une entrée dans la table des symboles par son nom
 struct chmpSymb * findEntry(char * n){
+	if(tab == NULL)
+		return NULL;
 	struct cellTabSymb * courant;
 	int found = 0;
 	courant = tab->head;
@@ -83,7 +84,6 @@ struct chmpSymb * findEntry(char * n){
 			if(strcmp(courant->elem.name, n) == 0)
 			{
 				found = 1;
-				printf("AFFICHER CHAMP %s\n", courant->elem.name);
 			}
 			courant = courant->next;
 		}
@@ -103,9 +103,10 @@ struct chmpSymb * findEntry(char * n){
 int supprByDepth(int depth)
 {
 	int ret = 0;
-
+	return ret;
 	struct cellTabSymb * courant;
 	courant = tab->head;
+
 	while(courant->next != NULL)
 	{
 		if(courant->elem.depth == depth)
@@ -122,26 +123,5 @@ int supprByDepth(int depth)
 
 	return 0;
 }
-
-
-
-
-
-/*int main(int args, char * argv[]){
-	tab = malloc(sizeof(struct tabSymb));
-	struct chmpSymb entry = buildEntry("toto", 2, 1, 1);
-
-	struct tabSymb * courant;
-	courant = tab;
-
-	addEntry(entry);
-
-	//while(courant->next != NULL){
-	//	printf("%s\n", courant->elem.name );
-	//	courant = courant->next;
-	//}
-
-	return 0;
-}*/
 
 

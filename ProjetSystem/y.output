@@ -25,114 +25,116 @@ Grammar
     5 PDeclars: Decl PDeclars
     6         | /* empty */
 
-    7 Decl: tINT tID tSEMI
-    8     | tCONST tINT tID tAFFECT Maths tSEMI
-    9     | tINT tMULT tID tSEMI
-   10     | tINT tID tAFFECT Maths tSEMI
+    7 DeclInt: tINT tID
 
-   11 @1: /* empty */
+    8 Decl: DeclInt tSEMI
+    9     | tCONST DeclInt tAFFECT Maths tSEMI
+   10     | tINT tMULT tID tSEMI
+   11     | DeclInt tAFFECT Maths tSEMI
 
-   12 Decl: tINT tID @1 tCOMA SuiteDecl
+   12 @1: /* empty */
 
-   13 @2: /* empty */
+   13 Decl: DeclInt @1 tCOMA SuiteDecl
 
-   14 SuiteDecl: tID @2 tCOMA SuiteDecl
-   15          | tID tSEMI
+   14 @2: /* empty */
 
-   16 PInsts: Structure PInsts
-   17       | /* empty */
+   15 SuiteDecl: tID @2 tCOMA SuiteDecl
+   16          | tID tSEMI
 
-   18 Structure: Inst tSEMI
-   19          | BlocIF
-   20          | BlocWhile
+   17 PInsts: Structure PInsts
+   18       | /* empty */
 
-   21 Inst: Affect
-   22     | Printf
+   19 Structure: Inst tSEMI
+   20          | BlocIF
+   21          | BlocWhile
 
-   23 Maths: Val
-   24      | tPO Maths tPF
-   25      | Maths tADD Maths
-   26      | Maths tSUB Maths
-   27      | Maths tMULT Maths
-   28      | Maths tDIV Maths
-   29      | Maths tINF Maths
-   30      | Maths tSUP Maths
-   31      | tMULT Maths
+   22 Inst: Affect
+   23     | Printf
 
-   32 Val: tNB
-   33    | tID
+   24 Maths: Val
+   25      | tPO Maths tPF
+   26      | Maths tADD Maths
+   27      | Maths tSUB Maths
+   28      | Maths tMULT Maths
+   29      | Maths tDIV Maths
+   30      | Maths tINF Maths
+   31      | Maths tSUP Maths
+   32      | tMULT Maths
 
-   34 Affect: tID tAFFECT Maths
-   35       | tMULT tID tAFFECT Maths
+   33 Val: tNB
+   34    | tID
 
-   36 Printf: tPRINT tPO Maths tPF
+   35 Affect: tID tAFFECT Maths
+   36       | tMULT tID tAFFECT Maths
 
-   37 @3: /* empty */
+   37 Printf: tPRINT tPO Maths tPF
 
-   38 @4: /* empty */
+   38 @3: /* empty */
 
-   39 @5: /* empty */
+   39 @4: /* empty */
 
-   40 @6: /* empty */
+   40 @5: /* empty */
 
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
+   41 @6: /* empty */
 
-   42 Cond: Maths
-   43     | Maths tEQ Maths
-   44     | /* empty */
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
 
-   45 @7: /* empty */
+   43 Cond: Maths
+   44     | Maths tEQ Maths
+   45     | /* empty */
 
-   46 @8: /* empty */
+   46 @7: /* empty */
 
-   47 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 Body tAF
+   47 @8: /* empty */
 
-   48 DefFonc: FType tID tPO Args tPF tAO Body tAF DefFonc
-   49        | /* empty */
+   48 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 Body tAF
 
-   50 Args: tID SuiteArgs
-   51     | tNB SuiteArgs
-   52     | /* empty */
+   49 DefFonc: FType tID tPO Args tPF tAO Body tAF DefFonc
+   50        | /* empty */
 
-   53 SuiteArgs: tCOMA tID SuiteArgs
-   54          | tCOMA tNB SuiteArgs
-   55          | tCOMA tNB
-   56          | tCOMA tID
+   51 Args: tID SuiteArgs
+   52     | tNB SuiteArgs
+   53     | /* empty */
+
+   54 SuiteArgs: tCOMA tID SuiteArgs
+   55          | tCOMA tNB SuiteArgs
+   56          | tCOMA tNB
+   57          | tCOMA tID
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-tNB (258) 32 51 54 55
-tID (259) 7 8 9 10 12 14 15 33 34 35 48 50 53 56
+tNB (258) 33 52 55 56
+tID (259) 7 10 15 16 34 35 36 49 51 54 57
 tNBE (260)
-tIF (261) 41
-tPO (262) 1 24 36 41 47 48
-tPF (263) 1 24 36 41 47 48
-tWHILE (264) 47
+tIF (261) 42
+tPO (262) 1 25 37 42 48 49
+tPF (263) 1 25 37 42 48 49
+tWHILE (264) 48
 tMAIN (265) 1
-tAO (266) 1 41 47 48
-tAF (267) 1 41 47 48
-tINT (268) 3 7 8 9 10 12
+tAO (266) 1 42 48 49
+tAF (267) 1 42 48 49
+tINT (268) 3 7 10
 tVOID (269) 2
 tERROR (270)
 tRETURN (271)
-tPRINT (272) 36
-tCONST (273) 8
-tELSE (274) 41
+tPRINT (272) 37
+tCONST (273) 9
+tELSE (274) 42
 tELSEIF (275)
-tSEMI (276) 7 8 9 10 15 18
-tCOMA (277) 12 14 53 54 55 56
-tADD (278) 25
-tSUB (279) 26
-tMULT (280) 9 27 31 35
-tDIV (281) 28
+tSEMI (276) 8 9 10 11 16 19
+tCOMA (277) 13 15 54 55 56 57
+tADD (278) 26
+tSUB (279) 27
+tMULT (280) 10 28 32 36
+tDIV (281) 29
 tMOD (282)
-tAFFECT (283) 8 10 34 35
-tEQ (284) 43
-tINF (285) 29
-tSUP (286) 30
+tAFFECT (283) 9 11 35 36
+tEQ (284) 44
+tINF (285) 30
+tSUP (286) 31
 tOR (287)
 tAND (288)
 tSUPEG (289)
@@ -146,58 +148,60 @@ $accept (36)
 Input (37)
     on left: 1, on right: 0
 FType (38)
-    on left: 2 3, on right: 48
+    on left: 2 3, on right: 49
 Body (39)
-    on left: 4, on right: 1 41 47 48
+    on left: 4, on right: 1 42 48 49
 PDeclars (40)
     on left: 5 6, on right: 4 5
-Decl (41)
-    on left: 7 8 9 10 12, on right: 5
-@1 (42)
-    on left: 11, on right: 12
-SuiteDecl (43)
-    on left: 14 15, on right: 12 14
-@2 (44)
-    on left: 13, on right: 14
-PInsts (45)
-    on left: 16 17, on right: 4 16
-Structure (46)
-    on left: 18 19 20, on right: 16
-Inst (47)
-    on left: 21 22, on right: 18
-Maths (48)
-    on left: 23 24 25 26 27 28 29 30 31, on right: 8 10 24 25 26 27
-    28 29 30 31 34 35 36 42 43
-Val (49)
-    on left: 32 33, on right: 23
-Affect (50)
-    on left: 34 35, on right: 21
-Printf (51)
-    on left: 36, on right: 22
-BlocIF (52)
-    on left: 41, on right: 19
-@3 (53)
-    on left: 37, on right: 41
-@4 (54)
-    on left: 38, on right: 41
-@5 (55)
-    on left: 39, on right: 41
-@6 (56)
-    on left: 40, on right: 41
-Cond (57)
-    on left: 42 43 44, on right: 41 47
-BlocWhile (58)
-    on left: 47, on right: 20
-@7 (59)
-    on left: 45, on right: 47
-@8 (60)
-    on left: 46, on right: 47
-DefFonc (61)
-    on left: 48 49, on right: 1 48
-Args (62)
-    on left: 50 51 52, on right: 48
-SuiteArgs (63)
-    on left: 53 54 55 56, on right: 50 51 53 54
+DeclInt (41)
+    on left: 7, on right: 8 9 11 13
+Decl (42)
+    on left: 8 9 10 11 13, on right: 5
+@1 (43)
+    on left: 12, on right: 13
+SuiteDecl (44)
+    on left: 15 16, on right: 13 15
+@2 (45)
+    on left: 14, on right: 15
+PInsts (46)
+    on left: 17 18, on right: 4 17
+Structure (47)
+    on left: 19 20 21, on right: 17
+Inst (48)
+    on left: 22 23, on right: 19
+Maths (49)
+    on left: 24 25 26 27 28 29 30 31 32, on right: 9 11 25 26 27 28
+    29 30 31 32 35 36 37 43 44
+Val (50)
+    on left: 33 34, on right: 24
+Affect (51)
+    on left: 35 36, on right: 22
+Printf (52)
+    on left: 37, on right: 23
+BlocIF (53)
+    on left: 42, on right: 20
+@3 (54)
+    on left: 38, on right: 42
+@4 (55)
+    on left: 39, on right: 42
+@5 (56)
+    on left: 40, on right: 42
+@6 (57)
+    on left: 41, on right: 42
+Cond (58)
+    on left: 43 44 45, on right: 42 48
+BlocWhile (59)
+    on left: 48, on right: 21
+@7 (60)
+    on left: 46, on right: 48
+@8 (61)
+    on left: 47, on right: 48
+DefFonc (62)
+    on left: 49 50, on right: 1 49
+Args (63)
+    on left: 51 52 53, on right: 49
+SuiteArgs (64)
+    on left: 54 55 56 57, on right: 51 52 54 55
 
 
 state 0
@@ -207,7 +211,7 @@ state 0
     tINT   shift, and go to state 1
     tVOID  shift, and go to state 2
 
-    $default  reduce using rule 49 (DefFonc)
+    $default  reduce using rule 50 (DefFonc)
 
     Input    go to state 3
     FType    go to state 4
@@ -237,7 +241,7 @@ state 3
 
 state 4
 
-   48 DefFonc: FType . tID tPO Args tPF tAO Body tAF DefFonc
+   49 DefFonc: FType . tID tPO Args tPF tAO Body tAF DefFonc
 
     tID  shift, and go to state 7
 
@@ -258,7 +262,7 @@ state 6
 
 state 7
 
-   48 DefFonc: FType tID . tPO Args tPF tAO Body tAF DefFonc
+   49 DefFonc: FType tID . tPO Args tPF tAO Body tAF DefFonc
 
     tPO  shift, and go to state 9
 
@@ -272,12 +276,12 @@ state 8
 
 state 9
 
-   48 DefFonc: FType tID tPO . Args tPF tAO Body tAF DefFonc
+   49 DefFonc: FType tID tPO . Args tPF tAO Body tAF DefFonc
 
     tNB  shift, and go to state 11
     tID  shift, and go to state 12
 
-    $default  reduce using rule 52 (Args)
+    $default  reduce using rule 53 (Args)
 
     Args  go to state 13
 
@@ -291,7 +295,7 @@ state 10
 
 state 11
 
-   51 Args: tNB . SuiteArgs
+   52 Args: tNB . SuiteArgs
 
     tCOMA  shift, and go to state 15
 
@@ -300,7 +304,7 @@ state 11
 
 state 12
 
-   50 Args: tID . SuiteArgs
+   51 Args: tID . SuiteArgs
 
     tCOMA  shift, and go to state 15
 
@@ -309,7 +313,7 @@ state 12
 
 state 13
 
-   48 DefFonc: FType tID tPO Args . tPF tAO Body tAF DefFonc
+   49 DefFonc: FType tID tPO Args . tPF tAO Body tAF DefFonc
 
     tPF  shift, and go to state 18
 
@@ -323,10 +327,10 @@ state 14
 
 state 15
 
-   53 SuiteArgs: tCOMA . tID SuiteArgs
-   54          | tCOMA . tNB SuiteArgs
-   55          | tCOMA . tNB
-   56          | tCOMA . tID
+   54 SuiteArgs: tCOMA . tID SuiteArgs
+   55          | tCOMA . tNB SuiteArgs
+   56          | tCOMA . tNB
+   57          | tCOMA . tID
 
     tNB  shift, and go to state 20
     tID  shift, and go to state 21
@@ -334,21 +338,21 @@ state 15
 
 state 16
 
-   51 Args: tNB SuiteArgs .
+   52 Args: tNB SuiteArgs .
 
-    $default  reduce using rule 51 (Args)
+    $default  reduce using rule 52 (Args)
 
 
 state 17
 
-   50 Args: tID SuiteArgs .
+   51 Args: tID SuiteArgs .
 
-    $default  reduce using rule 50 (Args)
+    $default  reduce using rule 51 (Args)
 
 
 state 18
 
-   48 DefFonc: FType tID tPO Args tPF . tAO Body tAF DefFonc
+   49 DefFonc: FType tID tPO Args tPF . tAO Body tAF DefFonc
 
     tAO  shift, and go to state 22
 
@@ -364,25 +368,14 @@ state 19
 
     Body      go to state 25
     PDeclars  go to state 26
-    Decl      go to state 27
+    DeclInt   go to state 27
+    Decl      go to state 28
 
 
 state 20
 
-   54 SuiteArgs: tCOMA tNB . SuiteArgs
-   55          | tCOMA tNB .
-
-    tCOMA  shift, and go to state 15
-
-    $default  reduce using rule 55 (SuiteArgs)
-
-    SuiteArgs  go to state 28
-
-
-state 21
-
-   53 SuiteArgs: tCOMA tID . SuiteArgs
-   56          | tCOMA tID .
+   55 SuiteArgs: tCOMA tNB . SuiteArgs
+   56          | tCOMA tNB .
 
     tCOMA  shift, and go to state 15
 
@@ -391,67 +384,94 @@ state 21
     SuiteArgs  go to state 29
 
 
+state 21
+
+   54 SuiteArgs: tCOMA tID . SuiteArgs
+   57          | tCOMA tID .
+
+    tCOMA  shift, and go to state 15
+
+    $default  reduce using rule 57 (SuiteArgs)
+
+    SuiteArgs  go to state 30
+
+
 state 22
 
-   48 DefFonc: FType tID tPO Args tPF tAO . Body tAF DefFonc
+   49 DefFonc: FType tID tPO Args tPF tAO . Body tAF DefFonc
 
     tINT    shift, and go to state 23
     tCONST  shift, and go to state 24
 
     $default  reduce using rule 6 (PDeclars)
 
-    Body      go to state 30
+    Body      go to state 31
     PDeclars  go to state 26
-    Decl      go to state 27
+    DeclInt   go to state 27
+    Decl      go to state 28
 
 
 state 23
 
-    7 Decl: tINT . tID tSEMI
-    9     | tINT . tMULT tID tSEMI
-   10     | tINT . tID tAFFECT Maths tSEMI
-   12     | tINT . tID @1 tCOMA SuiteDecl
+    7 DeclInt: tINT . tID
+   10 Decl: tINT . tMULT tID tSEMI
 
-    tID    shift, and go to state 31
-    tMULT  shift, and go to state 32
+    tID    shift, and go to state 32
+    tMULT  shift, and go to state 33
 
 
 state 24
 
-    8 Decl: tCONST . tINT tID tAFFECT Maths tSEMI
+    9 Decl: tCONST . DeclInt tAFFECT Maths tSEMI
 
-    tINT  shift, and go to state 33
+    tINT  shift, and go to state 34
+
+    DeclInt  go to state 35
 
 
 state 25
 
     1 Input: DefFonc tMAIN tPO tPF tAO Body . tAF
 
-    tAF  shift, and go to state 34
+    tAF  shift, and go to state 36
 
 
 state 26
 
     4 Body: PDeclars . PInsts
 
-    tID     shift, and go to state 35
-    tIF     shift, and go to state 36
-    tWHILE  shift, and go to state 37
-    tPRINT  shift, and go to state 38
-    tMULT   shift, and go to state 39
+    tID     shift, and go to state 37
+    tIF     shift, and go to state 38
+    tWHILE  shift, and go to state 39
+    tPRINT  shift, and go to state 40
+    tMULT   shift, and go to state 41
 
-    $default  reduce using rule 17 (PInsts)
+    $default  reduce using rule 18 (PInsts)
 
-    PInsts     go to state 40
-    Structure  go to state 41
-    Inst       go to state 42
-    Affect     go to state 43
-    Printf     go to state 44
-    BlocIF     go to state 45
-    BlocWhile  go to state 46
+    PInsts     go to state 42
+    Structure  go to state 43
+    Inst       go to state 44
+    Affect     go to state 45
+    Printf     go to state 46
+    BlocIF     go to state 47
+    BlocWhile  go to state 48
 
 
 state 27
+
+    8 Decl: DeclInt . tSEMI
+   11     | DeclInt . tAFFECT Maths tSEMI
+   13     | DeclInt . @1 tCOMA SuiteDecl
+
+    tSEMI    shift, and go to state 49
+    tAFFECT  shift, and go to state 50
+
+    $default  reduce using rule 12 (@1)
+
+    @1  go to state 51
+
+
+state 28
 
     5 PDeclars: Decl . PDeclars
 
@@ -460,919 +480,899 @@ state 27
 
     $default  reduce using rule 6 (PDeclars)
 
-    PDeclars  go to state 47
-    Decl      go to state 27
-
-
-state 28
-
-   54 SuiteArgs: tCOMA tNB SuiteArgs .
-
-    $default  reduce using rule 54 (SuiteArgs)
+    PDeclars  go to state 52
+    DeclInt   go to state 27
+    Decl      go to state 28
 
 
 state 29
 
-   53 SuiteArgs: tCOMA tID SuiteArgs .
+   55 SuiteArgs: tCOMA tNB SuiteArgs .
 
-    $default  reduce using rule 53 (SuiteArgs)
+    $default  reduce using rule 55 (SuiteArgs)
 
 
 state 30
 
-   48 DefFonc: FType tID tPO Args tPF tAO Body . tAF DefFonc
+   54 SuiteArgs: tCOMA tID SuiteArgs .
 
-    tAF  shift, and go to state 48
+    $default  reduce using rule 54 (SuiteArgs)
 
 
 state 31
 
-    7 Decl: tINT tID . tSEMI
-   10     | tINT tID . tAFFECT Maths tSEMI
-   12     | tINT tID . @1 tCOMA SuiteDecl
+   49 DefFonc: FType tID tPO Args tPF tAO Body . tAF DefFonc
 
-    tSEMI    shift, and go to state 49
-    tAFFECT  shift, and go to state 50
-
-    $default  reduce using rule 11 (@1)
-
-    @1  go to state 51
+    tAF  shift, and go to state 53
 
 
 state 32
 
-    9 Decl: tINT tMULT . tID tSEMI
+    7 DeclInt: tINT tID .
 
-    tID  shift, and go to state 52
+    $default  reduce using rule 7 (DeclInt)
 
 
 state 33
 
-    8 Decl: tCONST tINT . tID tAFFECT Maths tSEMI
+   10 Decl: tINT tMULT . tID tSEMI
 
-    tID  shift, and go to state 53
+    tID  shift, and go to state 54
 
 
 state 34
+
+    7 DeclInt: tINT . tID
+
+    tID  shift, and go to state 32
+
+
+state 35
+
+    9 Decl: tCONST DeclInt . tAFFECT Maths tSEMI
+
+    tAFFECT  shift, and go to state 55
+
+
+state 36
 
     1 Input: DefFonc tMAIN tPO tPF tAO Body tAF .
 
     $default  reduce using rule 1 (Input)
 
 
-state 35
-
-   34 Affect: tID . tAFFECT Maths
-
-    tAFFECT  shift, and go to state 54
-
-
-state 36
-
-   41 BlocIF: tIF . tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
-
-    tPO  shift, and go to state 55
-
-
 state 37
 
-   47 BlocWhile: tWHILE . tPO Cond tPF @7 tAO @8 Body tAF
+   35 Affect: tID . tAFFECT Maths
 
-    tPO  shift, and go to state 56
+    tAFFECT  shift, and go to state 56
 
 
 state 38
 
-   36 Printf: tPRINT . tPO Maths tPF
+   42 BlocIF: tIF . tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
 
     tPO  shift, and go to state 57
 
 
 state 39
 
-   35 Affect: tMULT . tID tAFFECT Maths
+   48 BlocWhile: tWHILE . tPO Cond tPF @7 tAO @8 Body tAF
 
-    tID  shift, and go to state 58
+    tPO  shift, and go to state 58
 
 
 state 40
+
+   37 Printf: tPRINT . tPO Maths tPF
+
+    tPO  shift, and go to state 59
+
+
+state 41
+
+   36 Affect: tMULT . tID tAFFECT Maths
+
+    tID  shift, and go to state 60
+
+
+state 42
 
     4 Body: PDeclars PInsts .
 
     $default  reduce using rule 4 (Body)
 
 
-state 41
-
-   16 PInsts: Structure . PInsts
-
-    tID     shift, and go to state 35
-    tIF     shift, and go to state 36
-    tWHILE  shift, and go to state 37
-    tPRINT  shift, and go to state 38
-    tMULT   shift, and go to state 39
-
-    $default  reduce using rule 17 (PInsts)
-
-    PInsts     go to state 59
-    Structure  go to state 41
-    Inst       go to state 42
-    Affect     go to state 43
-    Printf     go to state 44
-    BlocIF     go to state 45
-    BlocWhile  go to state 46
-
-
-state 42
-
-   18 Structure: Inst . tSEMI
-
-    tSEMI  shift, and go to state 60
-
-
 state 43
 
-   21 Inst: Affect .
+   17 PInsts: Structure . PInsts
 
-    $default  reduce using rule 21 (Inst)
+    tID     shift, and go to state 37
+    tIF     shift, and go to state 38
+    tWHILE  shift, and go to state 39
+    tPRINT  shift, and go to state 40
+    tMULT   shift, and go to state 41
+
+    $default  reduce using rule 18 (PInsts)
+
+    PInsts     go to state 61
+    Structure  go to state 43
+    Inst       go to state 44
+    Affect     go to state 45
+    Printf     go to state 46
+    BlocIF     go to state 47
+    BlocWhile  go to state 48
 
 
 state 44
 
-   22 Inst: Printf .
+   19 Structure: Inst . tSEMI
 
-    $default  reduce using rule 22 (Inst)
+    tSEMI  shift, and go to state 62
 
 
 state 45
 
-   19 Structure: BlocIF .
+   22 Inst: Affect .
 
-    $default  reduce using rule 19 (Structure)
+    $default  reduce using rule 22 (Inst)
 
 
 state 46
 
-   20 Structure: BlocWhile .
+   23 Inst: Printf .
+
+    $default  reduce using rule 23 (Inst)
+
+
+state 47
+
+   20 Structure: BlocIF .
 
     $default  reduce using rule 20 (Structure)
 
 
-state 47
+state 48
+
+   21 Structure: BlocWhile .
+
+    $default  reduce using rule 21 (Structure)
+
+
+state 49
+
+    8 Decl: DeclInt tSEMI .
+
+    $default  reduce using rule 8 (Decl)
+
+
+state 50
+
+   11 Decl: DeclInt tAFFECT . Maths tSEMI
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 67
+    Val    go to state 68
+
+
+state 51
+
+   13 Decl: DeclInt @1 . tCOMA SuiteDecl
+
+    tCOMA  shift, and go to state 69
+
+
+state 52
 
     5 PDeclars: Decl PDeclars .
 
     $default  reduce using rule 5 (PDeclars)
 
 
-state 48
+state 53
 
-   48 DefFonc: FType tID tPO Args tPF tAO Body tAF . DefFonc
+   49 DefFonc: FType tID tPO Args tPF tAO Body tAF . DefFonc
 
     tINT   shift, and go to state 1
     tVOID  shift, and go to state 2
 
-    $default  reduce using rule 49 (DefFonc)
+    $default  reduce using rule 50 (DefFonc)
 
     FType    go to state 4
-    DefFonc  go to state 61
-
-
-state 49
-
-    7 Decl: tINT tID tSEMI .
-
-    $default  reduce using rule 7 (Decl)
-
-
-state 50
-
-   10 Decl: tINT tID tAFFECT . Maths tSEMI
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 66
-    Val    go to state 67
-
-
-state 51
-
-   12 Decl: tINT tID @1 . tCOMA SuiteDecl
-
-    tCOMA  shift, and go to state 68
-
-
-state 52
-
-    9 Decl: tINT tMULT tID . tSEMI
-
-    tSEMI  shift, and go to state 69
-
-
-state 53
-
-    8 Decl: tCONST tINT tID . tAFFECT Maths tSEMI
-
-    tAFFECT  shift, and go to state 70
+    DefFonc  go to state 70
 
 
 state 54
 
-   34 Affect: tID tAFFECT . Maths
+   10 Decl: tINT tMULT tID . tSEMI
 
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 71
-    Val    go to state 67
+    tSEMI  shift, and go to state 71
 
 
 state 55
 
-   41 BlocIF: tIF tPO . Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
+    9 Decl: tCONST DeclInt tAFFECT . Maths tSEMI
 
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    $default  reduce using rule 44 (Cond)
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
 
     Maths  go to state 72
-    Val    go to state 67
-    Cond   go to state 73
+    Val    go to state 68
 
 
 state 56
 
-   47 BlocWhile: tWHILE tPO . Cond tPF @7 tAO @8 Body tAF
+   35 Affect: tID tAFFECT . Maths
 
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
 
-    $default  reduce using rule 44 (Cond)
-
-    Maths  go to state 72
-    Val    go to state 67
-    Cond   go to state 74
+    Maths  go to state 73
+    Val    go to state 68
 
 
 state 57
 
-   36 Printf: tPRINT tPO . Maths tPF
+   42 BlocIF: tIF tPO . Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
 
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
 
-    Maths  go to state 75
-    Val    go to state 67
+    $default  reduce using rule 45 (Cond)
+
+    Maths  go to state 74
+    Val    go to state 68
+    Cond   go to state 75
 
 
 state 58
 
-   35 Affect: tMULT tID . tAFFECT Maths
+   48 BlocWhile: tWHILE tPO . Cond tPF @7 tAO @8 Body tAF
 
-    tAFFECT  shift, and go to state 76
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    $default  reduce using rule 45 (Cond)
+
+    Maths  go to state 74
+    Val    go to state 68
+    Cond   go to state 76
 
 
 state 59
 
-   16 PInsts: Structure PInsts .
+   37 Printf: tPRINT tPO . Maths tPF
 
-    $default  reduce using rule 16 (PInsts)
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 77
+    Val    go to state 68
 
 
 state 60
 
-   18 Structure: Inst tSEMI .
+   36 Affect: tMULT tID . tAFFECT Maths
 
-    $default  reduce using rule 18 (Structure)
+    tAFFECT  shift, and go to state 78
 
 
 state 61
 
-   48 DefFonc: FType tID tPO Args tPF tAO Body tAF DefFonc .
+   17 PInsts: Structure PInsts .
 
-    $default  reduce using rule 48 (DefFonc)
+    $default  reduce using rule 17 (PInsts)
 
 
 state 62
 
-   32 Val: tNB .
+   19 Structure: Inst tSEMI .
 
-    $default  reduce using rule 32 (Val)
+    $default  reduce using rule 19 (Structure)
 
 
 state 63
 
-   33 Val: tID .
+   33 Val: tNB .
 
     $default  reduce using rule 33 (Val)
 
 
 state 64
 
-   24 Maths: tPO . Maths tPF
+   34 Val: tID .
 
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 77
-    Val    go to state 67
+    $default  reduce using rule 34 (Val)
 
 
 state 65
 
-   31 Maths: tMULT . Maths
+   25 Maths: tPO . Maths tPF
 
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
 
-    Maths  go to state 78
-    Val    go to state 67
+    Maths  go to state 79
+    Val    go to state 68
 
 
 state 66
 
-   10 Decl: tINT tID tAFFECT Maths . tSEMI
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
+   32 Maths: tMULT . Maths
 
-    tSEMI  shift, and go to state 79
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 80
+    Val    go to state 68
 
 
 state 67
 
-   23 Maths: Val .
+   11 Decl: DeclInt tAFFECT Maths . tSEMI
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
 
-    $default  reduce using rule 23 (Maths)
+    tSEMI  shift, and go to state 81
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
 
 
 state 68
 
-   12 Decl: tINT tID @1 tCOMA . SuiteDecl
-
-    tID  shift, and go to state 86
-
-    SuiteDecl  go to state 87
-
-
-state 69
-
-    9 Decl: tINT tMULT tID tSEMI .
-
-    $default  reduce using rule 9 (Decl)
-
-
-state 70
-
-    8 Decl: tCONST tINT tID tAFFECT . Maths tSEMI
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 88
-    Val    go to state 67
-
-
-state 71
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   34 Affect: tID tAFFECT Maths .
-
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
-
-    $default  reduce using rule 34 (Affect)
-
-
-state 72
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   42 Cond: Maths .
-   43     | Maths . tEQ Maths
-
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tEQ    shift, and go to state 89
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
-
-    $default  reduce using rule 42 (Cond)
-
-
-state 73
-
-   41 BlocIF: tIF tPO Cond . @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
-
-    $default  reduce using rule 37 (@3)
-
-    @3  go to state 90
-
-
-state 74
-
-   47 BlocWhile: tWHILE tPO Cond . tPF @7 tAO @8 Body tAF
-
-    tPF  shift, and go to state 91
-
-
-state 75
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   36 Printf: tPRINT tPO Maths . tPF
-
-    tPF    shift, and go to state 92
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
-
-
-state 76
-
-   35 Affect: tMULT tID tAFFECT . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 93
-    Val    go to state 67
-
-
-state 77
-
-   24 Maths: tPO Maths . tPF
-   25      | Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-
-    tPF    shift, and go to state 94
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
-
-
-state 78
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   31      | tMULT Maths .
-
-    tADD  shift, and go to state 80
-    tSUB  shift, and go to state 81
-    tINF  shift, and go to state 84
-    tSUP  shift, and go to state 85
-
-    $default  reduce using rule 31 (Maths)
-
-
-state 79
-
-   10 Decl: tINT tID tAFFECT Maths tSEMI .
-
-    $default  reduce using rule 10 (Decl)
-
-
-state 80
-
-   25 Maths: Maths tADD . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 95
-    Val    go to state 67
-
-
-state 81
-
-   26 Maths: Maths tSUB . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 96
-    Val    go to state 67
-
-
-state 82
-
-   27 Maths: Maths tMULT . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 97
-    Val    go to state 67
-
-
-state 83
-
-   28 Maths: Maths tDIV . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 98
-    Val    go to state 67
-
-
-state 84
-
-   29 Maths: Maths tINF . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 99
-    Val    go to state 67
-
-
-state 85
-
-   30 Maths: Maths tSUP . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 100
-    Val    go to state 67
-
-
-state 86
-
-   14 SuiteDecl: tID . @2 tCOMA SuiteDecl
-   15          | tID . tSEMI
-
-    tSEMI  shift, and go to state 101
-
-    $default  reduce using rule 13 (@2)
-
-    @2  go to state 102
-
-
-state 87
-
-   12 Decl: tINT tID @1 tCOMA SuiteDecl .
-
-    $default  reduce using rule 12 (Decl)
-
-
-state 88
-
-    8 Decl: tCONST tINT tID tAFFECT Maths . tSEMI
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-
-    tSEMI  shift, and go to state 103
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
-
-
-state 89
-
-   43 Cond: Maths tEQ . Maths
-
-    tNB    shift, and go to state 62
-    tID    shift, and go to state 63
-    tPO    shift, and go to state 64
-    tMULT  shift, and go to state 65
-
-    Maths  go to state 104
-    Val    go to state 67
-
-
-state 90
-
-   41 BlocIF: tIF tPO Cond @3 . tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
-
-    tPF  shift, and go to state 105
-
-
-state 91
-
-   47 BlocWhile: tWHILE tPO Cond tPF . @7 tAO @8 Body tAF
-
-    $default  reduce using rule 45 (@7)
-
-    @7  go to state 106
-
-
-state 92
-
-   36 Printf: tPRINT tPO Maths tPF .
-
-    $default  reduce using rule 36 (Printf)
-
-
-state 93
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   35 Affect: tMULT tID tAFFECT Maths .
-
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
-
-    $default  reduce using rule 35 (Affect)
-
-
-state 94
-
-   24 Maths: tPO Maths tPF .
+   24 Maths: Val .
 
     $default  reduce using rule 24 (Maths)
 
 
-state 95
+state 69
 
-   25 Maths: Maths . tADD Maths
-   25      | Maths tADD Maths .
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
+   13 Decl: DeclInt @1 tCOMA . SuiteDecl
 
-    tINF  shift, and go to state 84
-    tSUP  shift, and go to state 85
+    tID  shift, and go to state 88
 
-    $default  reduce using rule 25 (Maths)
+    SuiteDecl  go to state 89
 
 
-state 96
+state 70
 
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   26      | Maths tSUB Maths .
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
+   49 DefFonc: FType tID tPO Args tPF tAO Body tAF DefFonc .
 
-    tINF  shift, and go to state 84
-    tSUP  shift, and go to state 85
-
-    $default  reduce using rule 26 (Maths)
+    $default  reduce using rule 49 (DefFonc)
 
 
-state 97
+state 71
 
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   27      | Maths tMULT Maths .
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
+   10 Decl: tINT tMULT tID tSEMI .
 
-    tADD  shift, and go to state 80
-    tSUB  shift, and go to state 81
-    tINF  shift, and go to state 84
-    tSUP  shift, and go to state 85
-
-    $default  reduce using rule 27 (Maths)
+    $default  reduce using rule 10 (Decl)
 
 
-state 98
+state 72
 
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   28      | Maths tDIV Maths .
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
+    9 Decl: tCONST DeclInt tAFFECT Maths . tSEMI
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
 
-    tADD  shift, and go to state 80
-    tSUB  shift, and go to state 81
-    tINF  shift, and go to state 84
-    tSUP  shift, and go to state 85
-
-    $default  reduce using rule 28 (Maths)
-
-
-state 99
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   29      | Maths tINF Maths .
-   30      | Maths . tSUP Maths
-
-    $default  reduce using rule 29 (Maths)
+    tSEMI  shift, and go to state 90
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
 
 
-state 100
+state 73
 
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   30      | Maths tSUP Maths .
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   35 Affect: tID tAFFECT Maths .
 
-    $default  reduce using rule 30 (Maths)
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
 
-
-state 101
-
-   15 SuiteDecl: tID tSEMI .
-
-    $default  reduce using rule 15 (SuiteDecl)
-
-
-state 102
-
-   14 SuiteDecl: tID @2 . tCOMA SuiteDecl
-
-    tCOMA  shift, and go to state 107
+    $default  reduce using rule 35 (Affect)
 
 
-state 103
+state 74
 
-    8 Decl: tCONST tINT tID tAFFECT Maths tSEMI .
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   43 Cond: Maths .
+   44     | Maths . tEQ Maths
 
-    $default  reduce using rule 8 (Decl)
-
-
-state 104
-
-   25 Maths: Maths . tADD Maths
-   26      | Maths . tSUB Maths
-   27      | Maths . tMULT Maths
-   28      | Maths . tDIV Maths
-   29      | Maths . tINF Maths
-   30      | Maths . tSUP Maths
-   43 Cond: Maths tEQ Maths .
-
-    tADD   shift, and go to state 80
-    tSUB   shift, and go to state 81
-    tMULT  shift, and go to state 82
-    tDIV   shift, and go to state 83
-    tINF   shift, and go to state 84
-    tSUP   shift, and go to state 85
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tEQ    shift, and go to state 91
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
 
     $default  reduce using rule 43 (Cond)
 
 
+state 75
+
+   42 BlocIF: tIF tPO Cond . @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
+
+    $default  reduce using rule 38 (@3)
+
+    @3  go to state 92
+
+
+state 76
+
+   48 BlocWhile: tWHILE tPO Cond . tPF @7 tAO @8 Body tAF
+
+    tPF  shift, and go to state 93
+
+
+state 77
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   37 Printf: tPRINT tPO Maths . tPF
+
+    tPF    shift, and go to state 94
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
+
+
+state 78
+
+   36 Affect: tMULT tID tAFFECT . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 95
+    Val    go to state 68
+
+
+state 79
+
+   25 Maths: tPO Maths . tPF
+   26      | Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+
+    tPF    shift, and go to state 96
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
+
+
+state 80
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   32      | tMULT Maths .
+
+    tADD  shift, and go to state 82
+    tSUB  shift, and go to state 83
+    tINF  shift, and go to state 86
+    tSUP  shift, and go to state 87
+
+    $default  reduce using rule 32 (Maths)
+
+
+state 81
+
+   11 Decl: DeclInt tAFFECT Maths tSEMI .
+
+    $default  reduce using rule 11 (Decl)
+
+
+state 82
+
+   26 Maths: Maths tADD . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 97
+    Val    go to state 68
+
+
+state 83
+
+   27 Maths: Maths tSUB . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 98
+    Val    go to state 68
+
+
+state 84
+
+   28 Maths: Maths tMULT . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 99
+    Val    go to state 68
+
+
+state 85
+
+   29 Maths: Maths tDIV . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 100
+    Val    go to state 68
+
+
+state 86
+
+   30 Maths: Maths tINF . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 101
+    Val    go to state 68
+
+
+state 87
+
+   31 Maths: Maths tSUP . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 102
+    Val    go to state 68
+
+
+state 88
+
+   15 SuiteDecl: tID . @2 tCOMA SuiteDecl
+   16          | tID . tSEMI
+
+    tSEMI  shift, and go to state 103
+
+    $default  reduce using rule 14 (@2)
+
+    @2  go to state 104
+
+
+state 89
+
+   13 Decl: DeclInt @1 tCOMA SuiteDecl .
+
+    $default  reduce using rule 13 (Decl)
+
+
+state 90
+
+    9 Decl: tCONST DeclInt tAFFECT Maths tSEMI .
+
+    $default  reduce using rule 9 (Decl)
+
+
+state 91
+
+   44 Cond: Maths tEQ . Maths
+
+    tNB    shift, and go to state 63
+    tID    shift, and go to state 64
+    tPO    shift, and go to state 65
+    tMULT  shift, and go to state 66
+
+    Maths  go to state 105
+    Val    go to state 68
+
+
+state 92
+
+   42 BlocIF: tIF tPO Cond @3 . tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
+
+    tPF  shift, and go to state 106
+
+
+state 93
+
+   48 BlocWhile: tWHILE tPO Cond tPF . @7 tAO @8 Body tAF
+
+    $default  reduce using rule 46 (@7)
+
+    @7  go to state 107
+
+
+state 94
+
+   37 Printf: tPRINT tPO Maths tPF .
+
+    $default  reduce using rule 37 (Printf)
+
+
+state 95
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   36 Affect: tMULT tID tAFFECT Maths .
+
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
+
+    $default  reduce using rule 36 (Affect)
+
+
+state 96
+
+   25 Maths: tPO Maths tPF .
+
+    $default  reduce using rule 25 (Maths)
+
+
+state 97
+
+   26 Maths: Maths . tADD Maths
+   26      | Maths tADD Maths .
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+
+    tINF  shift, and go to state 86
+    tSUP  shift, and go to state 87
+
+    $default  reduce using rule 26 (Maths)
+
+
+state 98
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   27      | Maths tSUB Maths .
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+
+    tINF  shift, and go to state 86
+    tSUP  shift, and go to state 87
+
+    $default  reduce using rule 27 (Maths)
+
+
+state 99
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   28      | Maths tMULT Maths .
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+
+    tADD  shift, and go to state 82
+    tSUB  shift, and go to state 83
+    tINF  shift, and go to state 86
+    tSUP  shift, and go to state 87
+
+    $default  reduce using rule 28 (Maths)
+
+
+state 100
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   29      | Maths tDIV Maths .
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+
+    tADD  shift, and go to state 82
+    tSUB  shift, and go to state 83
+    tINF  shift, and go to state 86
+    tSUP  shift, and go to state 87
+
+    $default  reduce using rule 29 (Maths)
+
+
+state 101
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   30      | Maths tINF Maths .
+   31      | Maths . tSUP Maths
+
+    $default  reduce using rule 30 (Maths)
+
+
+state 102
+
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   31      | Maths tSUP Maths .
+
+    $default  reduce using rule 31 (Maths)
+
+
+state 103
+
+   16 SuiteDecl: tID tSEMI .
+
+    $default  reduce using rule 16 (SuiteDecl)
+
+
+state 104
+
+   15 SuiteDecl: tID @2 . tCOMA SuiteDecl
+
+    tCOMA  shift, and go to state 108
+
+
 state 105
 
-   41 BlocIF: tIF tPO Cond @3 tPF . tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
+   26 Maths: Maths . tADD Maths
+   27      | Maths . tSUB Maths
+   28      | Maths . tMULT Maths
+   29      | Maths . tDIV Maths
+   30      | Maths . tINF Maths
+   31      | Maths . tSUP Maths
+   44 Cond: Maths tEQ Maths .
 
-    tAO  shift, and go to state 108
+    tADD   shift, and go to state 82
+    tSUB   shift, and go to state 83
+    tMULT  shift, and go to state 84
+    tDIV   shift, and go to state 85
+    tINF   shift, and go to state 86
+    tSUP   shift, and go to state 87
+
+    $default  reduce using rule 44 (Cond)
 
 
 state 106
 
-   47 BlocWhile: tWHILE tPO Cond tPF @7 . tAO @8 Body tAF
+   42 BlocIF: tIF tPO Cond @3 tPF . tAO @4 Body tAF @5 tELSE tAO @6 Body tAF
 
     tAO  shift, and go to state 109
 
 
 state 107
 
-   14 SuiteDecl: tID @2 tCOMA . SuiteDecl
+   48 BlocWhile: tWHILE tPO Cond tPF @7 . tAO @8 Body tAF
 
-    tID  shift, and go to state 86
-
-    SuiteDecl  go to state 110
+    tAO  shift, and go to state 110
 
 
 state 108
 
-   41 BlocIF: tIF tPO Cond @3 tPF tAO . @4 Body tAF @5 tELSE tAO @6 Body tAF
+   15 SuiteDecl: tID @2 tCOMA . SuiteDecl
 
-    $default  reduce using rule 38 (@4)
+    tID  shift, and go to state 88
 
-    @4  go to state 111
+    SuiteDecl  go to state 111
 
 
 state 109
 
-   47 BlocWhile: tWHILE tPO Cond tPF @7 tAO . @8 Body tAF
+   42 BlocIF: tIF tPO Cond @3 tPF tAO . @4 Body tAF @5 tELSE tAO @6 Body tAF
 
-    $default  reduce using rule 46 (@8)
+    $default  reduce using rule 39 (@4)
 
-    @8  go to state 112
+    @4  go to state 112
 
 
 state 110
 
-   14 SuiteDecl: tID @2 tCOMA SuiteDecl .
+   48 BlocWhile: tWHILE tPO Cond tPF @7 tAO . @8 Body tAF
 
-    $default  reduce using rule 14 (SuiteDecl)
+    $default  reduce using rule 47 (@8)
+
+    @8  go to state 113
 
 
 state 111
 
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 . Body tAF @5 tELSE tAO @6 Body tAF
+   15 SuiteDecl: tID @2 tCOMA SuiteDecl .
 
-    tINT    shift, and go to state 23
-    tCONST  shift, and go to state 24
-
-    $default  reduce using rule 6 (PDeclars)
-
-    Body      go to state 113
-    PDeclars  go to state 26
-    Decl      go to state 27
+    $default  reduce using rule 15 (SuiteDecl)
 
 
 state 112
 
-   47 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 . Body tAF
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 . Body tAF @5 tELSE tAO @6 Body tAF
 
     tINT    shift, and go to state 23
     tCONST  shift, and go to state 24
@@ -1381,85 +1381,102 @@ state 112
 
     Body      go to state 114
     PDeclars  go to state 26
-    Decl      go to state 27
+    DeclInt   go to state 27
+    Decl      go to state 28
 
 
 state 113
 
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body . tAF @5 tELSE tAO @6 Body tAF
-
-    tAF  shift, and go to state 115
-
-
-state 114
-
-   47 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 Body . tAF
-
-    tAF  shift, and go to state 116
-
-
-state 115
-
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF . @5 tELSE tAO @6 Body tAF
-
-    $default  reduce using rule 39 (@5)
-
-    @5  go to state 117
-
-
-state 116
-
-   47 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 Body tAF .
-
-    $default  reduce using rule 47 (BlocWhile)
-
-
-state 117
-
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 . tELSE tAO @6 Body tAF
-
-    tELSE  shift, and go to state 118
-
-
-state 118
-
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE . tAO @6 Body tAF
-
-    tAO  shift, and go to state 119
-
-
-state 119
-
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO . @6 Body tAF
-
-    $default  reduce using rule 40 (@6)
-
-    @6  go to state 120
-
-
-state 120
-
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 . Body tAF
+   48 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 . Body tAF
 
     tINT    shift, and go to state 23
     tCONST  shift, and go to state 24
 
     $default  reduce using rule 6 (PDeclars)
 
-    Body      go to state 121
+    Body      go to state 115
     PDeclars  go to state 26
-    Decl      go to state 27
+    DeclInt   go to state 27
+    Decl      go to state 28
+
+
+state 114
+
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body . tAF @5 tELSE tAO @6 Body tAF
+
+    tAF  shift, and go to state 116
+
+
+state 115
+
+   48 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 Body . tAF
+
+    tAF  shift, and go to state 117
+
+
+state 116
+
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF . @5 tELSE tAO @6 Body tAF
+
+    $default  reduce using rule 40 (@5)
+
+    @5  go to state 118
+
+
+state 117
+
+   48 BlocWhile: tWHILE tPO Cond tPF @7 tAO @8 Body tAF .
+
+    $default  reduce using rule 48 (BlocWhile)
+
+
+state 118
+
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 . tELSE tAO @6 Body tAF
+
+    tELSE  shift, and go to state 119
+
+
+state 119
+
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE . tAO @6 Body tAF
+
+    tAO  shift, and go to state 120
+
+
+state 120
+
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO . @6 Body tAF
+
+    $default  reduce using rule 41 (@6)
+
+    @6  go to state 121
 
 
 state 121
 
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body . tAF
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 . Body tAF
 
-    tAF  shift, and go to state 122
+    tINT    shift, and go to state 23
+    tCONST  shift, and go to state 24
+
+    $default  reduce using rule 6 (PDeclars)
+
+    Body      go to state 122
+    PDeclars  go to state 26
+    DeclInt   go to state 27
+    Decl      go to state 28
 
 
 state 122
 
-   41 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF .
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body . tAF
 
-    $default  reduce using rule 41 (BlocIF)
+    tAF  shift, and go to state 123
+
+
+state 123
+
+   42 BlocIF: tIF tPO Cond @3 tPF tAO @4 Body tAF @5 tELSE tAO @6 Body tAF .
+
+    $default  reduce using rule 42 (BlocIF)

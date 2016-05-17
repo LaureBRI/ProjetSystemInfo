@@ -30,7 +30,6 @@ FILE * fasm ;
 %token <varnb> tIF 
 %token <varnb> tPO
 %token <varnb> tPF
-//%token <typeWhile> tWHILE
 %token <varnb> tWHILE
 %token tMAIN tAO tAF 
 %token tINT tVOID tERROR tRETURN tPRINT tCONST tELSE tELSEIF tSEMI tCOMA tADD tSUB tMULT tDIV tMOD tAFFECT tEQ tINF tSUP tOR tAND
@@ -38,9 +37,6 @@ FILE * fasm ;
 %type <varnb> Maths
 %type <varnb> Val 
 %type <varnb> Cond
-//%type <varnb> SuiteIF
-//%type <varnb> SuiteELSEIF
-//%type <varnb> ELSE
 
 /*Spécification de priorité pour les opérateurs arithmétiques*/
 %left tMULT tDIV tMOD 
@@ -70,8 +66,8 @@ PDeclars: Decl PDeclars
 	| ;
 
 /* variables déclarées  : [int id] ou [int id, id2, id3] ou [const int id = exp] ou [int id = exp] ou [int * id] */  
-Decl: 
-	tINT tID tSEMI 
+DeclInt:
+	tINT tID
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 0, 0); 
 		// Vérification que la variable n'existe pas déjà
@@ -83,21 +79,18 @@ Decl:
 		else
 		{
 			yyerror("Variable déjà déclarée\n");
-		}
+		}	
+	}
+
+Decl: 
+	DeclInt tSEMI 
+	{
+		
 		
 	}
-	| tCONST tINT tID tAFFECT Maths tSEMI
+	| tCONST DeclInt tAFFECT Maths tSEMI
 	{
-		struct chmpSymb nouv = buildEntry($3, depth, 0, 1);
-		if(findEntry(nouv.name)==NULL)
-		{
-			if(addEntry(nouv)==-1)
-				yyerror("Ajout Table symbole\n");
-		}
-		else
-		{
-			yyerror("Variable déjà déclarée\n");
-		}
+
 	}
 	| tINT tMULT tID tSEMI
 	{
@@ -112,31 +105,13 @@ Decl:
 			yyerror("Variable déjà déclarée\n");
 		}
 	}
-	| tINT tID tAFFECT Maths tSEMI
+	| DeclInt tAFFECT Maths tSEMI
 	{
-		struct chmpSymb nouv = buildEntry($2, depth, 1, 0);
-		if(findEntry(nouv.name)==NULL)
-		{
-			if(addEntry(nouv)==-1)
-				yyerror("Ajout Table symbole\n");
-		}
-		else
-		{
-			yyerror("Variable déjà déclarée\n");
-		}
+
 	}
-	| tINT tID 
+	| DeclInt 
 	{
-		struct chmpSymb nouv = buildEntry($2, depth, 0, 0);
-		if(findEntry(nouv.name)==NULL)
-		{
-			if(addEntry(nouv)==-1)
-				yyerror("Ajout Table symbole\n");
-		}
-		else
-		{
-			yyerror("Variable déjà déclarée\n");
-		} 
+	 
 	} tCOMA SuiteDecl
 
 SuiteDecl: 
@@ -273,7 +248,7 @@ Val:
 		}
 		else
 		{
-			yyerror("Variable non déclarée\n");
+			//yyerror("Variable non déclarée\n");
 		}
 	}
 
@@ -291,7 +266,7 @@ Affect:
 		}
 		else
 		{
-			yyerror("Variable non déclarée\n");
+			//yyerror("Variable non déclarée\n");
 		}
 	}
 	| tMULT tID tAFFECT Maths  
@@ -307,7 +282,7 @@ Affect:
 		}
 		else
 		{
-			yyerror("Variable non déclarée\n");
+			//yyerror("Variable non déclarée\n");
 		}
 
 	}

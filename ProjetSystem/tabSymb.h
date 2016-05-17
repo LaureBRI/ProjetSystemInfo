@@ -24,7 +24,8 @@ struct tabSymb
 	struct cellTabSymb * tail;
 };
 
-struct tabSymb * tab;
+struct tabSymb * getTab();
+
 
 // Construit une ligne de la table des symboles
 // avec n le nom de la variable
