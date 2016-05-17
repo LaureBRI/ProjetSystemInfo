@@ -8,19 +8,23 @@
 chiffre [0-9]
 
 %%
-"ADD"     	{ return tADD; }
-"MUL"    	{ return tMUL; }
-"DIV"     	{ return tDIV; }
-"SOU"		{ return tSOU; }
-"COP"     	{ return tCOP; }
-"PRI"		{ return tPRI; }
-"AFC"   	{ return tAFC; }
-"JMP" 		{ return tJMP; } 
-"JMF"  	  	{ return tJMF; }
-"COPA"		{ return tCOPA;}
-"COPB"		{ return tCOPB;}
+"ADD"     	{ printf("ADD\n");return tADD; }
+"MUL"    	{ printf("MUL\n");return tMUL; }
+"DIV"     	{ printf("DIV\n");return tDIV; }
+"SOU"		{ printf("SOU\n");return tSOU; }
+"INF"		{ printf("INF\n");return tINF; }
+"SUP"		{ printf("SUP\n");return tSUP; }
+"EQU"		{ printf("EQU\n");return tEQU; }
+"COP"     	{ printf("COP\n");return tCOP; }
+"PRI"		{ printf("PRI\n");return tPRI; }
+"AFC"   	{ printf("AFC\n");return tAFC; }
+"JMP" 		{ printf("JMP\n");return tJMP; } 
+"JMF"  	  	{ printf("JMF\n");return tJMF; }
+"COPA"		{ printf("COPA\n");return tCOPA;}
+"COPB"		{ printf("COPB\n");return tCOPB;}
 "\n"    	{ }
+[ \t]+	 	{ }
 
 {chiffre} { yylval.nb = atoi(yytext); 
-			return tNb; }
+			return tNB; }
 	

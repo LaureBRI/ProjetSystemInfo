@@ -67,11 +67,11 @@
      tAFFECT = 283,
      tEQ = 284,
      tINF = 285,
-     tINFEG = 286,
-     tSUP = 287,
-     tSUPEG = 288,
-     tOR = 289,
-     tAND = 290
+     tSUP = 286,
+     tOR = 287,
+     tAND = 288,
+     tSUPEG = 289,
+     tINFEG = 290
    };
 #endif
 /* Tokens.  */
@@ -103,18 +103,18 @@
 #define tAFFECT 283
 #define tEQ 284
 #define tINF 285
-#define tINFEG 286
-#define tSUP 287
-#define tSUPEG 288
-#define tOR 289
-#define tAND 290
+#define tSUP 286
+#define tOR 287
+#define tAND 288
+#define tSUPEG 289
+#define tINFEG 290
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 27 "projetSyst.y"
+#line 23 "projetSyst.y"
 {int varnb; float varnbe; char * varc; 
 		struct typeWhile{int to; int from;} typeWhile;
 		}

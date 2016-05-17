@@ -71,6 +71,7 @@ int supprEntry(){
 //Trouve une entrée dans la table des symboles par son nom
 struct chmpSymb * findEntry(char * n){
 	struct cellTabSymb * courant;
+	int found = 0;
 	courant = tab->head;
 	if(courant == NULL){
 		printf("Champ %s inexistant dans la table des symboles (vide).\n", n);
@@ -78,11 +79,23 @@ struct chmpSymb * findEntry(char * n){
 	}
 	else
 	{
-		while(strcmp(courant->elem.name, n) != 0 && courant != tab->tail){
-			printf("AFFICHER CHAMP %s\n", courant->elem.name);
+		while(courant != tab->tail && found == 0){
+			if(strcmp(courant->elem.name, n) == 0)
+			{
+				found = 1;
+				printf("AFFICHER CHAMP %s\n", courant->elem.name);
+			}
 			courant = courant->next;
 		}
-		return &(courant->elem);
+
+		if(found == 1)
+		{
+			return &(courant->elem);
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 }
 

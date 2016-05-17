@@ -29,6 +29,9 @@ enum {
 	iMUL,
 	iDIV,
 	iSOU,
+	iINF,
+	iSUP,
+	iEQU,
 	iCOP,
 	iAFC,
 	iPRI,
@@ -42,8 +45,8 @@ enum {
 
 
 %union {int nb; }
-%token tADD tMUL tDIV tSOU tCOP tAFC tJMP tJMF tPRI tCOPA tCOPB
-%token <nb> tNb
+%token tADD tMUL tDIV tSOU tINF tSUP tEQU tCOP tAFC tJMP tJMF tPRI tCOPA tCOPB
+%token <nb> tNB
 
 	/* Axiome de départ */ 
 %start Assembleur
@@ -54,45 +57,57 @@ enum {
 /* -------------------------- */
 
 Assembleur 
-		: Inst Assembleur 
+		: PInst Assembleur 
 		|
 		; 
 
-Inst 	
-		: tADD tNb tNb tNb
+PInst 	
+		: tADD tNB tNB tNB
 		{
 			add_ins(iADD, $2, $3, $4);
 		}
 		
-		| tMUL tNb tNb tNb
+		| tMUL tNB tNB tNB
 		{
 			add_ins(iMUL, $2, $3, $4);
 		}
-		| tDIV tNb tNb tNb
+		| tDIV tNB tNB tNB
 		{
 			add_ins(iDIV, $2, $3, $4);
 		}
-		| tSOU tNb tNb tNb
+		| tSOU tNB tNB tNB
 		{
 			add_ins(iSOU, $2, $3, $4);
 		}
-		| tCOP tNb tNb 
+		| tINF tNB tNB tNB
+		{
+			add_ins(iINF, $2, $3, $4);
+		}
+		| tSUP tNB tNB tNB
+		{
+			add_ins(iSUP, $2, $3, $4);
+		}
+		| tEQU tNB tNB tNB
+		{
+			add_ins(iEQU, $2, $3, $4);
+		}
+		| tCOP tNB tNB 
 		{
 			add_ins(iCOP, $2, $3, -1);
 		}
-		| tAFC tNb tNb
+		| tAFC tNB tNB
 		{
 			add_ins(iAFC, $2,$3,-1);
 		}
-		| tPRI tNb
+		| tPRI tNB
 		{
 			add_ins(iPRI,$2,-1,-1);
 		}
-		| tJMF tNb tNb
+		| tJMF tNB tNB
 		{
 			add_ins(iJMF,$2,$3,-1);
 		}
-		| tJMP tNb
+		| tJMP tNB
 		{
 			add_ins(iJMP,$2,-1,-1);
 		}
@@ -125,7 +140,7 @@ int main(void) {
 	
 	// parse le fichier assembleur
 	yyparse();
-	printf("\n\n");
+	printf("DEBUG\n\n");
 	// parcours la mémoire des instructions et execute les instructions
 	// dans le bon ordre (sauts pris en compte) 
 	while (i < indexI) {
@@ -142,7 +157,37 @@ int main(void) {
 				break ; 
 			case iSOU : 
 				mem[inss[i].a] = mem[inss[i].b] - mem[inss[i].c];
-				break ; 
+				break ;
+			case iINF : 
+				if (mem[inss[i].b] < mem[inss[i].c])
+				{
+					mem[inss[i].a] = 1;
+				}
+				else
+				{
+					mem[inss[i].a] = 0;
+				}
+				break ;
+			case iSUP : 
+				if (mem[inss[i].b] > mem[inss[i].c])
+				{
+					mem[inss[i].a] = 1;
+				}
+				else
+				{
+					mem[inss[i].a] = 0;
+				}
+				break ;
+			case iEQU : 
+				if (mem[inss[i].b] == mem[inss[i].c])
+				{
+					mem[inss[i].a] = 1;
+				}
+				else
+				{
+					mem[inss[i].a] = 0;
+				}
+				break ;
 			case iCOP : 
 				mem[inss[i].a] = mem[inss[i].b];
 				break ; 
@@ -176,13 +221,13 @@ int main(void) {
 		i++; 
 	}
 	
-		printf("\n\n");
+		printf("debug\n\n");
 	return 0;
 }
 
 /*
  * Ajout d'une instruction dans la mémoire d'instructions
- * Si l'instruction sontient moins de 3 paramêtres 
+ * Si l'instruction sontient moins de 3 paramètres 
  * la valeur -1 sera renseignée
  * retour 	0 si ajout OK,
  * 			-1 si erreur durant l'ajout (table pleine, instruction invalide)

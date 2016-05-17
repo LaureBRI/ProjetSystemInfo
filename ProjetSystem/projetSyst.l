@@ -5,7 +5,7 @@
 #include "y.tab.h"
 
 /*
--> pas géré dans le Yacc : nombre à virgule
+Nombre à virgule (pas géré dans le Yacc) :
 {NB}e[+|-]?{NB} { yylval.varnbe = atof(yytext); printf("nb : %f\n", yylval.varnbe); return tNBE;} 
 */
 

@@ -59,7 +59,7 @@ FILE * fasm ;
 /* Organisation générale  : déclaration_des_fonctions main () { Corps } */
 Input : DefFonc tMAIN tPO tPF tAO Body tAF // TODO : faire main(){}
 
-/*Full Type*/
+/*Full Types*/
 FType: tVOID | tINT
 
 /* Corps : Déclarations de variable suivit d'une liste d'instructions */ 
@@ -75,7 +75,7 @@ Decl:
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 0, 0); 
 		// Vérification que la variable n'existe pas déjà
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -89,7 +89,7 @@ Decl:
 	| tCONST tINT tID tAFFECT Maths tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($3, depth, 0, 1);
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -102,7 +102,7 @@ Decl:
 	| tINT tMULT tID tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($3, depth, 0, 0);
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -115,7 +115,7 @@ Decl:
 	| tINT tID tAFFECT Maths tSEMI
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 1, 0);
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -128,7 +128,7 @@ Decl:
 	| tINT tID 
 	{
 		struct chmpSymb nouv = buildEntry($2, depth, 0, 0);
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -143,7 +143,7 @@ SuiteDecl:
 	tID 
 	{
 		struct chmpSymb nouv = buildEntry($1, depth, 0, 0);
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -156,7 +156,7 @@ SuiteDecl:
 	| tID tSEMI 
 	{
 		struct chmpSymb nouv = buildEntry($1, depth, 0, 0);
-		if(findEntry(nouv)==NULL)
+		if(findEntry(nouv.name)==NULL)
 		{
 			if(addEntry(nouv)==-1)
 				yyerror("Ajout Table symbole\n");
@@ -243,7 +243,7 @@ Maths: Val
 		} 
 		$$ = $1;
 	}
-	// pointeurs
+	// Les pointeurs
 	// Maths retourne add temps, on va déréférencer ce qui est déjà dans une add temp, pas la peine d'en refaire une
 	| tMULT Maths 
 	{
